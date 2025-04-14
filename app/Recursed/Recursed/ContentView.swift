@@ -11,7 +11,7 @@ struct ContentView: View {
         if case .loggedIn = service.status {
             MainView()
         } else {
-            LoginSplashView()
+            LoginView()
         }
     }
 }

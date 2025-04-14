@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-struct LoginSplashView: View {
+struct LoginView: View {
     @ObservedObject var preferences = PreferencesModel.global
     @State var password: String = ""
     @State var showsError: Bool = false
@@ -23,6 +23,8 @@ struct LoginSplashView: View {
                     .textInputAutocapitalization(.never)
                     #endif
                     .disableAutocorrection(true)
+                    .textContentType(.username)
+                    .keyboardType(.emailAddress)
                     .onSubmit { login() }
 
                     SecureField(text: $password,
@@ -30,6 +32,7 @@ struct LoginSplashView: View {
                     {
                         Text("Password")
                     }
+                    .textContentType(.password)
                     .onSubmit { login() }
                 } header: {
                     Text("Account")

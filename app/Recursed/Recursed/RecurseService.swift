@@ -3,6 +3,7 @@
 
 import Foundation
 import Observation
+import UIKit
 
 @Observable class RecurseService {
     static let global = RecurseService()
@@ -56,7 +57,11 @@ import Observation
 
         request.setValue("Basic " + encoded,
                          forHTTPHeaderField: "Authorization")
-        request.httpBody = RecurseTokens.kRequestBody
+        request.httpBody =
+            await "description=Recursed on \(UIDevice.current.name)"
+                .split(separator: " ")
+                .joined(separator: "+")
+                .data(using: .utf8)!
         let (data, response) =
             try await URLSession.shared.data(for: request)
 
@@ -65,7 +70,7 @@ import Observation
             throw RecurseServiceError.httpError(http_response.statusCode)
         }
         preferences.authorizationToken =
-            try JSONDecoder().decode(RecurseTokens.Response.self,
+            try JSONDecoder().decode(RecurseTokens.self,
                                      from: data).token
     }
 
