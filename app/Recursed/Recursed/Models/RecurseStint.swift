@@ -8,6 +8,6 @@ struct RecurseStint: Decodable {
     let for_half_batch: Bool
     let in_progress: Bool
     let start_date: String // "2025-02-17"
-    let end_date: String
-    let batch: RecurseBatch
+    let end_date: String?
+    let batch: RecurseBatch?
 }

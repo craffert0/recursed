@@ -9,7 +9,7 @@ struct ContentView: View {
 
     var body: some View {
         if case .loggedIn = service.status {
-            MainView()
+            TodayVisitsView()
         } else {
             LoginView()
         }

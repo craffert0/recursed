@@ -19,15 +19,13 @@ struct MainView: View {
             }
         }
         .alert(isPresented: $showsError, error: error) {}
-        .task { await getMe() }
-    }
-
-    func getMe() async {
-        do {
-            person = try await service.getMe()
-        } catch {
-            self.error = error as? RecurseServiceError ?? .otherError(error)
-            showsError = true
+        .task {
+            do {
+                person = try await service.me
+            } catch {
+                self.error = error as? RecurseServiceError ?? .otherError(error)
+                showsError = true
+            }
         }
     }
 }

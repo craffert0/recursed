@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
 
+import Foundation
+
 struct RecursePerson: Decodable {
     let id: Int
     let first_name: String
@@ -13,7 +15,7 @@ struct RecursePerson: Decodable {
     let twitter: String?
     let pronouns: String?
     let unformatted_phone_number: String?
-    let zoom_url: String // "https://us04web.zoom.us/j/2517163895?pwd=NGtIOEZQbXRKL3FycFl4a0Evd2NaQT09",
+    let zoom_url: String? // "https://us04web.zoom.us/j/2517163895?pwd=NGtIOEZQbXRKL3FycFl4a0Evd2NaQT09",
     let zulip_id: Int
     let linkedin: String?
     let image_path: String? // "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTExNzQsInB1ciI6ImJsb2JfaWQifX0=--a2dbc1c267a544e65f7f6d8fc99a8c6592d6936c/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/IMG_8365.jpeg",
@@ -56,7 +58,9 @@ struct RecursePerson: Decodable {
     let email_match: String?
     let email_hl: String?
     let email_truncated: String?
-    let current_location: RecurseLocation
+    let current_location: RecurseLocation?
     let stints: [RecurseStint]
-    let company: RecurseCompany
+    let company: RecurseCompany?
 }
+
+extension RecursePerson: Identifiable {}
