@@ -8,9 +8,17 @@ struct PersonView: View {
 
     var body: some View {
         VStack {
+            if let image_path = person.image_path {
+                AsyncImage(url: URL(string: image_path)!) {
+                    $0
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 150, height: 150)
+            }
             Text(person.name)
             if let email = person.email {
-                Text(email)
+                Link(email, destination: URL(string: "mailto:\(email)")!)
             }
         }
     }
