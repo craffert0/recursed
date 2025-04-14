@@ -12,6 +12,14 @@ import Observation
         case loggedIn
         case error(RecurseServiceError)
         case otherError(Error)
+
+        static func from(error: Error) -> Status {
+            if let recurse_error = error as? RecurseServiceError {
+                .error(recurse_error)
+            } else {
+                .otherError(error)
+            }
+        }
     }
 
     var status: Status =
@@ -25,11 +33,7 @@ import Observation
             try await loginThrowing(user: user, password: password)
             status = .loggedIn
         } catch {
-            if let recurse_error = error as? RecurseServiceError {
-                status = .error(recurse_error)
-            } else {
-                status = .otherError(error)
-            }
+            status = .from(error: error)
         }
     }
 
@@ -63,5 +67,24 @@ import Observation
         preferences.authorizationToken =
             try JSONDecoder().decode(RecurseTokens.Response.self,
                                      from: data).token
+    }
+
+    func getMe() async throws -> RecursePerson {
+        guard let authorizationToken = preferences.authorizationToken else {
+            throw RecurseServiceError.loggedOut
+        }
+        let url = URL(string: "https://www.recurse.com/api/v1/profiles/me")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer " + authorizationToken,
+                         forHTTPHeaderField: "Authorization")
+        let (data, response) =
+            try await URLSession.shared.data(for: request)
+
+        let http_response = response as! HTTPURLResponse
+        guard http_response.statusCode == 200 else {
+            throw RecurseServiceError.httpError(http_response.statusCode)
+        }
+        return try JSONDecoder().decode(RecursePerson.self, from: data)
     }
 }

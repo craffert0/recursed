@@ -7,6 +7,7 @@ enum RecurseServiceError: Error {
     case cannotEncode
     case httpError(Int)
     case otherError(Error)
+    case loggedOut
 }
 
 extension RecurseServiceError: LocalizedError {
@@ -15,6 +16,7 @@ extension RecurseServiceError: LocalizedError {
         case .cannotEncode: "cannot encode"
         case let .httpError(code): "http error: \(code)"
         case let .otherError(error): "error \(error)"
+        case .loggedOut: "must login"
         }
     }
 }
