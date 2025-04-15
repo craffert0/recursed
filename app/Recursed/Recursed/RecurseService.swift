@@ -33,7 +33,7 @@ import UIKit
     var me: RecursePerson {
         get async throws {
             if actual_me == nil {
-                actual_me = try await getMe()
+                actual_me = try await run(path: "profiles/me")
             }
             return actual_me!
         }
@@ -68,87 +68,26 @@ import UIKit
             return person
         }
 
-        guard let authorizationToken = preferences.authorizationToken else {
-            throw RecurseServiceError.loggedOut
-        }
-        let url =
-            URL(string: "https://www.recurse.com/api/v1/profiles/\(id)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer " + authorizationToken,
-                         forHTTPHeaderField: "Authorization")
-        let (data, response) =
-            try await URLSession.shared.data(for: request)
-
-        let http_response = response as! HTTPURLResponse
-        guard http_response.statusCode == 200 else {
-            throw RecurseServiceError.httpError(http_response.statusCode)
-        }
-        let person = try JSONDecoder().decode(RecursePerson.self, from: data)
+        let person: RecursePerson = try await run(path: "profiles/\(id)")
         people[id] = person
         return person
     }
 
-    func checkin() async throws {
-        guard let authorizationToken = preferences.authorizationToken else {
-            throw RecurseServiceError.loggedOut
-        }
-        let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
-        let date = f.string(from: Date.now)
-        let url = try await URL(string: "https://www.recurse.com/api/v1/hub_visits/\(me.id)/\(date)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.setValue("Bearer " + authorizationToken,
-                         forHTTPHeaderField: "Authorization")
-        let (_, response) =
-            try await URLSession.shared.data(for: request)
-
-        let http_response = response as! HTTPURLResponse
-        guard http_response.statusCode == 200 else {
-            throw RecurseServiceError.httpError(http_response.statusCode)
-        }
+    @discardableResult
+    func checkin() async throws -> RecurseHubVisit {
+        try await run(path: "hub_visits/\(me.id)/\(Date.now.recurse)",
+                      httpMethod: "PATCH")
     }
 
     private func curentVisits() async throws -> [RecurseHubVisit] {
-        guard let authorizationToken = preferences.authorizationToken else {
-            throw RecurseServiceError.loggedOut
-        }
-        let url = URL(string: "https://www.recurse.com/api/v1/hub_visits")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer " + authorizationToken,
-                         forHTTPHeaderField: "Authorization")
-        let (data, response) =
-            try await URLSession.shared.data(for: request)
-
-        let http_response = response as! HTTPURLResponse
-        guard http_response.statusCode == 200 else {
-            throw RecurseServiceError.httpError(http_response.statusCode)
-        }
-        return try JSONDecoder().decode([RecurseHubVisit].self, from: data)
+        try await run(path: "hub_visits?date=\(Date.now.recurse)")
     }
 
     func current() async throws -> [RecursePerson] {
-        guard let authorizationToken = preferences.authorizationToken else {
-            throw RecurseServiceError.loggedOut
-        }
         var results: [RecursePerson] = []
         while true {
-            let url = URL(string: "https://www.recurse.com/api/v1/profiles?scope=current&offset=\(results.count)")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            request.setValue("Bearer " + authorizationToken,
-                             forHTTPHeaderField: "Authorization")
-            let (data, response) =
-                try await URLSession.shared.data(for: request)
-
-            let http_response = response as! HTTPURLResponse
-            guard http_response.statusCode == 200 else {
-                throw RecurseServiceError.httpError(http_response.statusCode)
-            }
-            let batch =
-                try JSONDecoder().decode([RecursePerson].self, from: data)
+            let path = "profiles?scope=current&offset=\(results.count)"
+            let batch: [RecursePerson] = try await run(path: path)
             if batch.count == 0 {
                 return results
             }
@@ -164,7 +103,7 @@ import UIKit
             throw RecurseServiceError.cannotEncode
         }
 
-        let url = URL(string: "https://www.recurse.com/api/v1/tokens")!
+        let url = URL(recurse: "tokens")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
@@ -187,13 +126,15 @@ import UIKit
                                      from: data).token
     }
 
-    private func getMe() async throws -> RecursePerson {
+    private func run<T: Decodable>(path: String,
+                                   httpMethod: String = "GET") async throws -> T
+    {
         guard let authorizationToken = preferences.authorizationToken else {
             throw RecurseServiceError.loggedOut
         }
-        let url = URL(string: "https://www.recurse.com/api/v1/profiles/me")!
+        let url = URL(recurse: path)
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = httpMethod
         request.setValue("Bearer " + authorizationToken,
                          forHTTPHeaderField: "Authorization")
         let (data, response) =
@@ -203,6 +144,6 @@ import UIKit
         guard http_response.statusCode == 200 else {
             throw RecurseServiceError.httpError(http_response.statusCode)
         }
-        return try JSONDecoder().decode(RecursePerson.self, from: data)
+        return try JSONDecoder().decode(T.self, from: data)
     }
 }
