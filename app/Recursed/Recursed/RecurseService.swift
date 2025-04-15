@@ -39,6 +39,8 @@ import UIKit
         }
     }
 
+    private var people: [Int: RecursePerson] = [:]
+
     func login(user: String, password: String) async {
         do {
             try await loginThrowing(user: user, password: password)
@@ -62,6 +64,10 @@ import UIKit
     }
 
     func person(id: Int) async throws -> RecursePerson {
+        if let person = people[id] {
+            return person
+        }
+
         guard let authorizationToken = preferences.authorizationToken else {
             throw RecurseServiceError.loggedOut
         }
@@ -78,7 +84,9 @@ import UIKit
         guard http_response.statusCode == 200 else {
             throw RecurseServiceError.httpError(http_response.statusCode)
         }
-        return try JSONDecoder().decode(RecursePerson.self, from: data)
+        let person = try JSONDecoder().decode(RecursePerson.self, from: data)
+        people[id] = person
+        return person
     }
 
     private func curentVisits() async throws -> [RecurseHubVisit] {
