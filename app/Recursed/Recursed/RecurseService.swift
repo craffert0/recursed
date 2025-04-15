@@ -89,6 +89,27 @@ import UIKit
         return person
     }
 
+    func checkin() async throws {
+        guard let authorizationToken = preferences.authorizationToken else {
+            throw RecurseServiceError.loggedOut
+        }
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        let date = f.string(from: Date.now)
+        let url = try await URL(string: "https://www.recurse.com/api/v1/hub_visits/\(me.id)/\(date)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("Bearer " + authorizationToken,
+                         forHTTPHeaderField: "Authorization")
+        let (_, response) =
+            try await URLSession.shared.data(for: request)
+
+        let http_response = response as! HTTPURLResponse
+        guard http_response.statusCode == 200 else {
+            throw RecurseServiceError.httpError(http_response.statusCode)
+        }
+    }
+
     private func curentVisits() async throws -> [RecurseHubVisit] {
         guard let authorizationToken = preferences.authorizationToken else {
             throw RecurseServiceError.loggedOut

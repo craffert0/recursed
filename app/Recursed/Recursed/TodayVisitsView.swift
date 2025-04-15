@@ -5,9 +5,12 @@ import Foundation
 import SwiftUI
 
 struct TodayVisitsView: View {
+    @State var me: RecursePerson?
     @State var people: [RecursePerson] = []
     @State var showsError: Bool = false
     @State var error: RecurseServiceError?
+
+    private let service = RecurseService.global
 
     let columns = [
         GridItem(.adaptive(minimum: 80)),
@@ -16,6 +19,13 @@ struct TodayVisitsView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical) {
+                if let me,
+                   !people.contains(where: { $0.id == me.id })
+                {
+                    Button("Check in?") {
+                        checkin()
+                    }.buttonStyle(.bordered)
+                }
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(people) { p in
                         NavigationLink {
@@ -36,10 +46,25 @@ struct TodayVisitsView: View {
 
     func refresh() async {
         do {
-            people = try await RecurseService.global.visitors()
+            people = try await service.visitors()
+            if me == nil {
+                me = try await service.me
+            }
         } catch {
             self.error = error as? RecurseServiceError ?? .otherError(error)
             showsError = true
+        }
+    }
+
+    func checkin() {
+        Task {
+            do {
+                try await service.checkin()
+                people = try await service.visitors()
+            } catch {
+                self.error = error as? RecurseServiceError ?? .otherError(error)
+                showsError = true
+            }
         }
     }
 }
