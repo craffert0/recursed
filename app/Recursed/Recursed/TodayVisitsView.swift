@@ -41,7 +41,7 @@ struct TodayVisitsView: View {
                     }
                 }
             }
-            .navigationTitle("Hub Visitors")
+            .navigationTitle("At The Hub")
             .navigationBarTitleDisplayMode(.large)
         }
         .alert(isPresented: $showsError, error: error) {}

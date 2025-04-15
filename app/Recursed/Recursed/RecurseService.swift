@@ -5,7 +5,8 @@ import Foundation
 import Observation
 import UIKit
 
-@Observable class RecurseService {
+@Observable
+class RecurseService {
     static let global = RecurseService()
 
     enum Status {
@@ -39,6 +40,7 @@ import UIKit
         }
     }
 
+    @MainActor
     func login(user: String, password: String) async {
         do {
             try await loginThrowing(user: user, password: password)
@@ -48,16 +50,19 @@ import UIKit
         }
     }
 
+    @MainActor
     func logout() {
         preferences.authorizationToken = nil
         status = .loggedOut
     }
 
+    @MainActor
     func visitors() async throws -> [RecurseHubVisit] {
         try await run(path: "hub_visits?date=\(Date.now.recurse)")
     }
 
     private var people: [Int: RecursePerson] = [:]
+    @MainActor
     func person(id: Int) async throws -> RecursePerson {
         if let person = people[id] {
             return person
@@ -68,12 +73,14 @@ import UIKit
         return person
     }
 
+    @MainActor
     @discardableResult
     func checkin() async throws -> RecurseHubVisit {
         try await run(path: "hub_visits/\(me.id)/\(Date.now.recurse)",
                       httpMethod: "PATCH")
     }
 
+    @MainActor
     func currentRecursers() async throws -> [RecursePerson] {
         var results: [RecursePerson] = []
         while true {

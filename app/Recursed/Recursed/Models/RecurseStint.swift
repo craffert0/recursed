@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
 
+import Foundation
+
 struct RecurseStint: Decodable {
     let id: Int
     let type: String
@@ -11,3 +13,5 @@ struct RecurseStint: Decodable {
     let end_date: String?
     let batch: RecurseBatch?
 }
+
+extension RecurseStint: Identifiable {}

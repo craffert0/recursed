@@ -9,7 +9,17 @@ struct ContentView: View {
 
     var body: some View {
         if case .loggedIn = service.status {
-            TodayVisitsView()
+            TabView {
+                Tab("Hub", systemImage: "house.circle.fill") {
+                    TodayVisitsView()
+                }
+
+                Tab("Settings", systemImage: "gearshape") {
+                    Button("Logout") {
+                        service.logout()
+                    }.buttonStyle(.bordered)
+                }
+            }
         } else {
             LoginView()
         }

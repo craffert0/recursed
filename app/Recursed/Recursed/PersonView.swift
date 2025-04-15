@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct PersonView: View {
-    let person: RecursePerson
+    @State var person: RecursePerson
 
     var body: some View {
         VStack {
@@ -16,10 +16,29 @@ struct PersonView: View {
                 }
                 .frame(width: 150, height: 150)
             }
-            Text(person.name)
+            HStack {
+                ForEach(person.stints) {
+                    if let n = $0.batch?.short_name {
+                        Text(n)
+                    }
+                }
+            }
             if let email = person.email {
                 Link(email, destination: URL(string: "mailto:\(email)")!)
             }
+            if let before_rc = person.before_rc_hl {
+                Text("Before RC").font(.headline)
+                Text(before_rc)
+            }
+            if person.stints.contains(where: \.in_progress),
+               let during_rc = person.during_rc_hl
+            {
+                Text("During RC").font(.headline)
+                Text(during_rc)
+            }
+            Spacer()
         }
+        .navigationTitle(person.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
