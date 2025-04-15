@@ -6,7 +6,7 @@ import SwiftUI
 
 struct TodayVisitsView: View {
     @State var me: RecursePerson?
-    @State var people: [RecursePerson] = []
+    @State var visitors: [VisitToPerson] = []
     @State var showsError: Bool = false
     @State var error: RecurseServiceError?
 
@@ -20,18 +20,23 @@ struct TodayVisitsView: View {
         NavigationView {
             ScrollView(.vertical) {
                 if let me,
-                   !people.contains(where: { $0.id == me.id })
+                   !visitors.contains(where: { $0.id == me.id })
                 {
                     Button("Check in?") {
                         checkin()
                     }.buttonStyle(.bordered)
                 }
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(people) { p in
-                        NavigationLink {
-                            PersonView(person: p)
-                        } label: {
-                            VisitView(person: p)
+                    ForEach(visitors) { visitor in
+                        switch visitor.state {
+                        case let .visit(v):
+                            Text(v.person.name)
+                        case let .person(p):
+                            NavigationLink {
+                                PersonView(person: p)
+                            } label: {
+                                VisitView(person: p)
+                            }
                         }
                     }
                 }
@@ -46,10 +51,11 @@ struct TodayVisitsView: View {
 
     func refresh() async {
         do {
-            people = try await service.visitors()
+            try await updateVisitors()
             if me == nil {
                 me = try await service.me
             }
+            try await loadVisitors()
         } catch {
             self.error = error as? RecurseServiceError ?? .otherError(error)
             showsError = true
@@ -60,11 +66,26 @@ struct TodayVisitsView: View {
         Task {
             do {
                 try await service.checkin()
-                people = try await service.visitors()
+                try await updateVisitors()
+                try await loadVisitors()
             } catch {
                 self.error = error as? RecurseServiceError ?? .otherError(error)
                 showsError = true
             }
+        }
+    }
+
+    func updateVisitors() async throws {
+        visitors = try await service.visitors()
+            .sorted { a, b in a.person.name < b.person.name }
+            .map {
+                VisitToPerson(visit: $0)
+            }
+    }
+
+    func loadVisitors() async throws {
+        for v in visitors {
+            try await v.load(service: service)
         }
     }
 }

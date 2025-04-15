@@ -39,8 +39,6 @@ import UIKit
         }
     }
 
-    private var people: [Int: RecursePerson] = [:]
-
     func login(user: String, password: String) async {
         do {
             try await loginThrowing(user: user, password: password)
@@ -55,14 +53,11 @@ import UIKit
         status = .loggedOut
     }
 
-    func visitors() async throws -> [RecursePerson] {
-        var result: [RecursePerson] = []
-        for v in try await curentVisits() {
-            try await result.append(person(id: v.person.id))
-        }
-        return result.sorted { a, b in a.name < b.name }
+    func visitors() async throws -> [RecurseHubVisit] {
+        try await run(path: "hub_visits?date=\(Date.now.recurse)")
     }
 
+    private var people: [Int: RecursePerson] = [:]
     func person(id: Int) async throws -> RecursePerson {
         if let person = people[id] {
             return person
@@ -79,11 +74,7 @@ import UIKit
                       httpMethod: "PATCH")
     }
 
-    private func curentVisits() async throws -> [RecurseHubVisit] {
-        try await run(path: "hub_visits?date=\(Date.now.recurse)")
-    }
-
-    func current() async throws -> [RecursePerson] {
+    func currentRecursers() async throws -> [RecursePerson] {
         var results: [RecursePerson] = []
         while true {
             let path = "profiles?scope=current&offset=\(results.count)"
