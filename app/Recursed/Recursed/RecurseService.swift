@@ -51,9 +51,22 @@ class RecurseService {
     }
 
     @MainActor
+    func login(token: String) async {
+        do {
+            preferences.authorizationToken = token
+            _ = try await me
+            status = .loggedIn
+        } catch {
+            preferences.authorizationToken = nil
+            status = .from(error: error)
+        }
+    }
+
+    @MainActor
     func logout() {
         preferences.authorizationToken = nil
         status = .loggedOut
+        actual_me = nil
     }
 
     @MainActor
