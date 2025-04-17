@@ -31,20 +31,15 @@ struct TodayVisitsView: View {
     }
 
     private func refresh() async {
-        do {
-            try await service.fetchVisitors()
-            try await service.loadMe()
-        } catch {
-            self.error = error as? RecurseServiceError ?? .otherError(error)
-            showsError = true
-        }
+        try? await service.fetchVisitors()
+        try? await service.loadMe()
     }
 
     private func checkin() {
         Task {
             do {
                 try await service.checkin()
-                try await service.fetchVisitors()
+                try? await service.fetchVisitors()
             } catch {
                 self.error = error as? RecurseServiceError ?? .otherError(error)
                 showsError = true

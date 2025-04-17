@@ -10,7 +10,10 @@ struct GridPersonView: View {
         if let image_path = person.image_path {
             VStack {
                 AsyncImage(url: URL(string: image_path)!) {
-                    $0.resizable()
+                    $0
+                        .resizable()
+                        .accessibility(hidden: false)
+                        .accessibilityLabel(Text(person.name))
                 } placeholder: {
                     ProgressView()
                 }

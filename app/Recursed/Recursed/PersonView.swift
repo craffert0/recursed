@@ -11,6 +11,8 @@ struct PersonView: View {
             if let image_path = person.image_path {
                 AsyncImage(url: URL(string: image_path)!) {
                     $0
+                        .accessibility(hidden: false)
+                        .accessibilityLabel(Text(person.name))
                 } placeholder: {
                     ProgressView()
                 }
