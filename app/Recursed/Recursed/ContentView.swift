@@ -5,13 +5,17 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    var service = RecurseService.global
+    @Environment(RecurseService.self) private var service
 
     var body: some View {
         if case .loggedIn = service.status {
             TabView {
                 Tab("Hub", systemImage: "house.circle.fill") {
                     TodayVisitsView()
+                }
+
+                Tab("Current", systemImage: "person.circle.fill") {
+                    CurrentView()
                 }
 
                 Tab("Settings", systemImage: "gearshape") {

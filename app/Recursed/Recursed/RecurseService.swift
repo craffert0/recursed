@@ -7,7 +7,14 @@ import UIKit
 
 @Observable
 class RecurseService {
-    static let global = RecurseService()
+    var me: RecursePerson?
+    var currentVisitors: [RecursePerson] = []
+    var currentRecursers: [RecursePerson] = []
+    var status: Status =
+        PreferencesModel.global.authorizationToken == nil
+            ? .loggedOut : .loggedIn
+
+    private let preferences = PreferencesModel.global
 
     enum Status {
         case loggedOut
@@ -21,22 +28,6 @@ class RecurseService {
             } else {
                 .otherError(error)
             }
-        }
-    }
-
-    var status: Status =
-        PreferencesModel.global.authorizationToken == nil
-            ? .loggedOut : .loggedIn
-
-    private let preferences = PreferencesModel.global
-
-    private var actual_me: RecursePerson?
-    var me: RecursePerson {
-        get async throws {
-            if actual_me == nil {
-                actual_me = try await run(path: "profiles/me")
-            }
-            return actual_me!
         }
     }
 
@@ -54,7 +45,7 @@ class RecurseService {
     func login(token: String) async {
         do {
             preferences.authorizationToken = token
-            _ = try await me
+            try await loadMe()
             status = .loggedIn
         } catch {
             preferences.authorizationToken = nil
@@ -62,21 +53,55 @@ class RecurseService {
         }
     }
 
-    @MainActor
-    func logout() {
-        preferences.authorizationToken = nil
-        status = .loggedOut
-        actual_me = nil
+    func loadMe() async throws {
+        if me != nil {
+            return
+        }
+        let newMe: RecursePerson = try await run(path: "profiles/me")
+        Task { @MainActor in
+            me = newMe
+        }
     }
 
-    @MainActor
-    func visitors() async throws -> [RecurseHubVisit] {
-        try await run(path: "hub_visits?date=\(Date.now.recurse)")
+    func fetchVisitors() async throws {
+        var results: [RecursePerson] = []
+        var visits: [RecurseHubVisit] =
+            try await run(path: "hub_visits?date=\(Date.now.recurse)")
+        visits.sort { a, b in a.person.name < b.person.name }
+        if currentVisitors.count == 0 {
+            for v in visits {
+                let p = try await person(id: v.person.id)
+                Task { @MainActor in
+                    currentVisitors.append(p)
+                }
+            }
+        } else {
+            for v in visits {
+                try await results.append(person(id: v.person.id))
+            }
+            Task { @MainActor in
+                currentVisitors = results
+            }
+        }
+    }
+
+    func fetchCurrent() async throws {
+        var results: [RecursePerson] = []
+        while true {
+            let path = "profiles?scope=current&offset=\(results.count)"
+            let batch: [RecursePerson] = try await run(path: path)
+            if batch.count == 0 {
+                break
+            }
+            results += batch
+        }
+        Task { @MainActor in
+            currentRecursers = results.sorted { a, b in a.name < b.name }
+        }
     }
 
     private var people: [Int: RecursePerson] = [:]
-    @MainActor
-    func person(id: Int) async throws -> RecursePerson {
+    private func person(id: Int) async throws -> RecursePerson {
         if let person = people[id] {
             return person
         }
@@ -87,23 +112,18 @@ class RecurseService {
     }
 
     @MainActor
-    @discardableResult
-    func checkin() async throws -> RecurseHubVisit {
-        try await run(path: "hub_visits/\(me.id)/\(Date.now.recurse)",
-                      httpMethod: "PATCH")
+    func logout() {
+        preferences.authorizationToken = nil
+        status = .loggedOut
+        me = nil
     }
 
     @MainActor
-    func currentRecursers() async throws -> [RecursePerson] {
-        var results: [RecursePerson] = []
-        while true {
-            let path = "profiles?scope=current&offset=\(results.count)"
-            let batch: [RecursePerson] = try await run(path: path)
-            if batch.count == 0 {
-                return results
-            }
-            results += batch
-        }
+    func checkin() async throws {
+        guard let me else { throw RecurseServiceError.loggedOut }
+        let _: RecurseHubVisit =
+            try await run(path: "hub_visits/\(me.id)/\(Date.now.recurse)",
+                          httpMethod: "PATCH")
     }
 
     private func loginThrowing(user: String, password: String) async throws {

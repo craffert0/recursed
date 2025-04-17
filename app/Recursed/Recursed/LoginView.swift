@@ -16,7 +16,7 @@ struct LoginView: View {
     @State var error: RecurseServiceError?
     @State var selection: Which = .key
 
-    let service = RecurseService.global
+    @Environment(RecurseService.self) private var service
 
     var body: some View {
         NavigationStack {

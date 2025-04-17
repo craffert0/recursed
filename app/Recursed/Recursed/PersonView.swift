@@ -42,3 +42,9 @@ struct PersonView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+#Preview {
+    NavigationStack {
+        PersonView(person: RecursePerson.fakePerson)
+    }
+}

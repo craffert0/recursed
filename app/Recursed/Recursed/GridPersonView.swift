@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-struct VisitView: View {
+struct GridPersonView: View {
     @State var person: RecursePerson
 
     var body: some View {
