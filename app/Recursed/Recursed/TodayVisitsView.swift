@@ -10,13 +10,9 @@ struct TodayVisitsView: View {
     @State var showsError: Bool = false
     @State var error: RecurseServiceError?
 
-    let columns = [
-        GridItem(.adaptive(minimum: 80)),
-    ]
-
     var body: some View {
         NavigationView {
-            ScrollView(.vertical) {
+            VStack {
                 if let me = service.me,
                    !service.currentVisitors.contains(where: { $0.id == me.id })
                 {
@@ -24,15 +20,7 @@ struct TodayVisitsView: View {
                         checkin()
                     }.buttonStyle(.bordered)
                 }
-                LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(service.currentVisitors) { person in
-                        NavigationLink {
-                            PersonView(person: person)
-                        } label: {
-                            GridPersonView(person: person)
-                        }
-                    }
-                }
+                PeopleGridView(people: service.currentVisitors)
             }
             .navigationTitle("At The Hub")
             .navigationBarTitleDisplayMode(.large)

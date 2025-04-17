@@ -6,22 +6,10 @@ import SwiftUI
 struct CurrentView: View {
     @Environment(RecurseService.self) private var service
 
-    private let columns = [
-        GridItem(.adaptive(minimum: 80)),
-    ]
-
     var body: some View {
         NavigationView {
-            ScrollView(.vertical) {
-                LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(service.currentRecursers) { person in
-                        NavigationLink {
-                            PersonView(person: person)
-                        } label: {
-                            GridPersonView(person: person)
-                        }
-                    }
-                }
+            VStack {
+                PeopleGridView(people: service.currentRecursers)
             }
             .navigationTitle("Current Recursers")
             .navigationBarTitleDisplayMode(.large)
