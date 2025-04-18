@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct CurrentView: View {
-    @Environment(RecurseService.self) private var service
+    @State private var service = RecurseService.global
 
     var body: some View {
         NavigationView {

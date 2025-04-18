@@ -7,6 +7,8 @@ import UIKit
 
 @Observable
 class RecurseService {
+    static let global = RecurseService()
+
     var me: RecursePerson?
     var currentVisitors: [RecursePerson] = []
     var currentRecursers: [RecursePerson] = []
@@ -124,6 +126,34 @@ class RecurseService {
         let _: RecurseHubVisit =
             try await run(path: "hub_visits/\(me.id)/\(Date.now.recurse)",
                           httpMethod: "PATCH")
+    }
+
+    func doorbotBuzz() async throws -> String {
+        try await doorbotRun(command: "buzz")
+    }
+
+    func elevatorBuzz() async throws -> String {
+        try await doorbotRun(command: "unlock")
+    }
+
+    private func doorbotRun(command: String) async throws -> String {
+        guard let authorizationToken = preferences.authorizationToken else {
+            throw RecurseServiceError.loggedOut
+        }
+        let url =
+            URL(string: "https://doorbot.recurse.com/\(command)_mobile")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer " + authorizationToken,
+                         forHTTPHeaderField: "Authorization")
+        let (data, response) =
+            try await URLSession.shared.data(for: request)
+
+        let http_response = response as! HTTPURLResponse
+        guard http_response.statusCode == 200 else {
+            throw RecurseServiceError.httpError(http_response.statusCode)
+        }
+        return String(data: data, encoding: .utf8)!
     }
 
     private func loginThrowing(user: String, password: String) async throws {

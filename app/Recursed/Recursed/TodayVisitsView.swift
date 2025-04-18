@@ -5,8 +5,7 @@ import Foundation
 import SwiftUI
 
 struct TodayVisitsView: View {
-    @Environment(RecurseService.self) private var service
-
+    @State private var service = RecurseService.global
     @State var showsError: Bool = false
     @State var error: RecurseServiceError?
 
