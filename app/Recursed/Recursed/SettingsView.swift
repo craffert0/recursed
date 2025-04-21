@@ -13,6 +13,12 @@ struct SettingsView: View {
                 Button("Logout") {
                     service.logout()
                 }.buttonStyle(.bordered)
+
+                NavigationLink {
+                    LicenseView(model: LicenseModel())
+                } label: {
+                    Text("License").font(.largeTitle)
+                }
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)

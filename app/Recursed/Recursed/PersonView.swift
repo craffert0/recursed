@@ -7,7 +7,7 @@ struct PersonView: View {
     @State var person: RecursePerson
 
     var body: some View {
-        VStack {
+        ScrollView {
             if let image_path = person.image_path {
                 AsyncImage(url: URL(string: image_path)!) {
                     $0
@@ -38,7 +38,6 @@ struct PersonView: View {
                 Text("During RC").font(.headline)
                 Text(during_rc)
             }
-            Spacer()
         }
         .navigationTitle(person.name)
         .navigationBarTitleDisplayMode(.inline)
