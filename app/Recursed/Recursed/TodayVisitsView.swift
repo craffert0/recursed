@@ -7,13 +7,15 @@ import SwiftUI
 struct TodayVisitsView: View {
     @State private var service = RecurseService.global
     @State private var preferences = PreferencesModel.global
+    @State private var location = LocationService.global
     @State var showsError: Bool = false
     @State var error: RecurseServiceError?
 
     var body: some View {
         NavigationView {
             VStack {
-                if let userId = preferences.userId,
+                if location.nearRecurse397,
+                   let userId = preferences.userId,
                    !service.currentVisitors.contains(
                        where: { $0.id == userId })
                 {
@@ -42,8 +44,7 @@ struct TodayVisitsView: View {
                 try await service.checkin()
                 try? await service.fetchVisitors()
             } catch {
-                self.error =
-                    error as? RecurseServiceError ?? .otherError(error)
+                self.error = RecurseServiceError.from(error: error)
                 showsError = true
             }
         }

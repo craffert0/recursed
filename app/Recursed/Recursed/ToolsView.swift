@@ -5,6 +5,10 @@ import SwiftUI
 
 struct ToolsView: View {
     @State private var service = RecurseService.global
+    @State private var location = LocationService.global
+    @State var alertMessage: String = ""
+    @State var showAlert: Bool = false
+    @State var checking: Bool = false
 
     var body: some View {
         NavigationView {
@@ -24,9 +28,38 @@ struct ToolsView: View {
                 } label: {
                     Text("ManualElevator")
                 }
+                if location.nearRecurse397 {
+                    Button("Check in?") {
+                        checkin()
+                    }
+                    .disabled(checking)
+                }
             }
             .navigationTitle("Tools")
             .navigationBarTitleDisplayMode(.large)
+        }
+        .alert(alertMessage, isPresented: $showAlert) {}
+        .overlay(alignment: .center) {
+            if checking {
+                ProgressView()
+            }
+        }
+    }
+
+    private func checkin() {
+        checking = true
+        Task {
+            var message = "checked in"
+            do {
+                try await service.checkin()
+            } catch {
+                message = "\(error)"
+            }
+            Task { @MainActor in
+                alertMessage = message
+                showAlert = true
+                checking = false
+            }
         }
     }
 }
