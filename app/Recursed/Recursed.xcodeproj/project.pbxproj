@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B2819A02DACB4FA000026A1 /* Recursed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recursed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B2819A02DACB4FA000026A1 /* Recursed!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recursed!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B2819B02DACB4FC000026A1 /* RecursedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecursedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B2819BA2DACB4FC000026A1 /* RecursedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecursedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -85,7 +85,7 @@
 		3B2819A12DACB4FA000026A1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3B2819A02DACB4FA000026A1 /* Recursed.app */,
+				3B2819A02DACB4FA000026A1 /* Recursed!.app */,
 				3B2819B02DACB4FC000026A1 /* RecursedTests.xctest */,
 				3B2819BA2DACB4FC000026A1 /* RecursedUITests.xctest */,
 			);
@@ -114,7 +114,7 @@
 			packageProductDependencies = (
 			);
 			productName = Recursed;
-			productReference = 3B2819A02DACB4FA000026A1 /* Recursed.app */;
+			productReference = 3B2819A02DACB4FA000026A1 /* Recursed!.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3B2819AF2DACB4FC000026A1 /* RecursedTests */ = {
@@ -413,7 +413,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.rafferty.colin.Recursed;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Recursed!";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -452,7 +452,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.rafferty.colin.Recursed;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Recursed!";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
