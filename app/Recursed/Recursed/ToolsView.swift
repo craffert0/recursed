@@ -5,7 +5,6 @@ import SwiftUI
 
 struct ToolsView: View {
     @State private var service = RecurseService.global
-    @State private var location = LocationService.global
     @State var alertMessage: String = ""
     @State var showAlert: Bool = false
     @State var checking: Bool = false
@@ -14,31 +13,37 @@ struct ToolsView: View {
         NavigationView {
             VStack {
                 Spacer()
+
                 NavigationLink {
                     DoorbotView()
                 } label: {
                     Text("DoorBot").font(.largeTitle)
                 }
+
                 Spacer()
+
                 NavigationLink {
                     ElevatorBotView()
                 } label: {
                     Text("ElevatorBot").font(.largeTitle)
                 }
+
                 Spacer()
+
                 NavigationLink {
                     ManualElevatorView()
                 } label: {
                     Text("ManualElevator").font(.largeTitle)
                 }
-                if location.nearRecurse397 {
-                    Spacer()
-                    Button("Check in?") {
-                        checkin()
-                    }
-                    .font(.largeTitle)
-                    .disabled(checking)
+
+                Spacer()
+
+                Button("Check in?") {
+                    checkin()
                 }
+                .font(.largeTitle)
+                .disabled(checking)
+
                 Spacer()
             }
             .navigationTitle("Tools")

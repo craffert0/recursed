@@ -6,12 +6,15 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var service = RecurseService.global
+    @State private var location = LocationService.global
 
     var body: some View {
         if case .loggedIn = service.status {
             TabView {
-                Tab("Tools", systemImage: "wrench.and.screwdriver") {
-                    ToolsView()
+                if location.nearRecurse397 {
+                    Tab("Tools", systemImage: "wrench.and.screwdriver") {
+                        ToolsView()
+                    }
                 }
 
                 Tab("Hub", systemImage: "house.circle.fill") {
