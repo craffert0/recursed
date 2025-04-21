@@ -23,9 +23,7 @@ struct ContentView: View {
                 }
 
                 Tab("Settings", systemImage: "gearshape") {
-                    Button("Logout") {
-                        service.logout()
-                    }.buttonStyle(.bordered)
+                    SettingsView()
                 }
             }
         } else {

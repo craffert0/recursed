@@ -9,7 +9,6 @@ import UIKit
 class RecurseService {
     static let global = RecurseService()
 
-    var me: RecursePerson?
     var currentVisitors: [RecursePerson] = []
     var currentRecursers: [RecursePerson] = []
     var status: Status =
@@ -37,6 +36,7 @@ class RecurseService {
     func login(user: String, password: String) async {
         do {
             try await loginThrowing(user: user, password: password)
+            try await loadMe()
             status = .loggedIn
         } catch {
             status = .from(error: error)
@@ -56,12 +56,12 @@ class RecurseService {
     }
 
     func loadMe() async throws {
-        if me != nil {
+        if preferences.userId != nil {
             return
         }
         let newMe: RecursePerson = try await run(path: "profiles/me")
         Task { @MainActor in
-            me = newMe
+            preferences.userId = newMe.id
         }
     }
 
@@ -116,15 +116,17 @@ class RecurseService {
     @MainActor
     func logout() {
         preferences.authorizationToken = nil
+        preferences.userId = nil
         status = .loggedOut
-        me = nil
     }
 
     @MainActor
     func checkin() async throws {
-        guard let me else { throw RecurseServiceError.loggedOut }
+        guard let userId = preferences.userId else {
+            throw RecurseServiceError.loggedOut
+        }
         let _: RecurseHubVisit =
-            try await run(path: "hub_visits/\(me.id)/\(Date.now.recurse)",
+            try await run(path: "hub_visits/\(userId)/\(Date.now.recurse)",
                           httpMethod: "PATCH")
     }
 
