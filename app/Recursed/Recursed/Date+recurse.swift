@@ -9,4 +9,15 @@ extension Date {
         f.dateFormat = "yyyy-MM-dd"
         return f.string(from: self)
     }
+
+    var isElevatorUnlocked: Bool {
+        let wh = Calendar.current.dateComponents([.weekday, .hour],
+                                                 from: self)
+        switch (wh.weekday!, wh.hour!) {
+        case (2 ... 6, 10 ... 17):
+            return true
+        default:
+            return false
+        }
+    }
 }

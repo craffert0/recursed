@@ -23,17 +23,13 @@ struct ToolsView: View {
                 Spacer()
 
                 NavigationLink {
-                    ElevatorBotView()
+                    if Date.now.isElevatorUnlocked {
+                        ManualElevatorView()
+                    } else {
+                        ElevatorBotView()
+                    }
                 } label: {
-                    Text("ElevatorBot").font(.largeTitle)
-                }
-
-                Spacer()
-
-                NavigationLink {
-                    ManualElevatorView()
-                } label: {
-                    Text("ManualElevator").font(.largeTitle)
+                    Text("Elevator").font(.largeTitle)
                 }
 
                 Spacer()

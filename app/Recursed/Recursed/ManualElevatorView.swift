@@ -9,8 +9,8 @@ struct ManualElevatorView: View {
 
     var body: some View {
         BotView(control: control) {
-            Text("1. Since it is a weekday during the day, the elevator" +
-                " to the 5th floor is unlocked.")
+            Text("1. Since it is currently a weekday during the day," +
+                " the elevator to the 5th floor is unlocked.")
             Text(try! AttributedString(
                 markdown:
                 "2\\. Press the *up* button in the lobby" +
