@@ -13,27 +13,33 @@ struct ToolsView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Spacer()
                 NavigationLink {
                     DoorbotView()
                 } label: {
-                    Text("DoorBot")
+                    Text("DoorBot").font(.largeTitle)
                 }
+                Spacer()
                 NavigationLink {
                     ElevatorBotView()
                 } label: {
-                    Text("ElevatorBot")
+                    Text("ElevatorBot").font(.largeTitle)
                 }
+                Spacer()
                 NavigationLink {
                     ManualElevatorView()
                 } label: {
-                    Text("ManualElevator")
+                    Text("ManualElevator").font(.largeTitle)
                 }
                 if location.nearRecurse397 {
+                    Spacer()
                     Button("Check in?") {
                         checkin()
                     }
+                    .font(.largeTitle)
                     .disabled(checking)
                 }
+                Spacer()
             }
             .navigationTitle("Tools")
             .navigationBarTitleDisplayMode(.large)
