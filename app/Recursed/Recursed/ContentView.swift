@@ -17,6 +17,10 @@ struct ContentView: View {
                     }
                 }
 
+                Tab("Search", systemImage: "magnifyingglass.circle.fill") {
+                    SearchView()
+                }
+
                 Tab("Hub", systemImage: "house.circle.fill") {
                     TodayVisitsView()
                 }

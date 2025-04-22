@@ -12,7 +12,14 @@ struct RecurseStint: Decodable {
 
     let title: String?
     let end_date: String?
-    let batch: RecurseBatch?
+    let batch: Batch?
+
+    struct Batch: Decodable {
+        let id: Int
+        let name: String
+        let short_name: String?
+        let alt_name: String?
+    }
 }
 
 extension RecurseStint: Identifiable {}

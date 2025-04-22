@@ -11,6 +11,8 @@ class RecurseService {
 
     var currentVisitors: [RecursePerson] = []
     var currentRecursers: [RecursePerson] = []
+    var searchResults: [RecursePerson] = []
+    var allBatches: [RecurseBatch] = []
     var status: Status =
         PreferencesModel.global.authorizationToken == nil
             ? .loggedOut : .loggedIn
@@ -88,17 +90,50 @@ class RecurseService {
     }
 
     func fetchCurrent() async throws {
+        let people = try await fetchPeople(args: ["scope": "current"])
+        Task { @MainActor in
+            currentRecursers = people.sorted { a, b in a.name < b.name }
+        }
+    }
+
+    func search(
+        query: String, batch: RecurseBatch, role: RecurseRole
+    ) async throws {
+        var args: [String: String] = ["query": query]
+        if batch.id != 0 {
+            args["batch_id"] = "\(batch.id)"
+        }
+        if role != .no_role {
+            args["role"] = role.raw
+        }
+        let people = try await fetchPeople(args: args)
+        Task { @MainActor in
+            searchResults = people.sorted { a, b in a.name < b.name }
+        }
+    }
+
+    private func fetchPeople(args: [String: String]) async throws
+        -> [RecursePerson]
+    {
+        let argString = args
+            .map { k, v in "\(k)=\(v)" }
+            .joined(separator: "&")
         var results: [RecursePerson] = []
         while true {
-            let path = "profiles?scope=current&offset=\(results.count)"
+            let path = "profiles?\(argString)&offset=\(results.count)"
             let batch: [RecursePerson] = try await run(path: path)
             if batch.count == 0 {
                 break
             }
             results += batch
         }
+        return results
+    }
+
+    func loadBatches() async throws {
+        let batches: [RecurseBatch] = try await run(path: "batches")
         Task { @MainActor in
-            currentRecursers = results.sorted { a, b in a.name < b.name }
+            allBatches = batches
         }
     }
 
