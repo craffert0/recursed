@@ -97,13 +97,16 @@ class RecurseService {
     }
 
     func search(
-        query: String, batch: RecurseBatch, role: RecurseRole
+        query: String? = nil, batchId: Int? = nil, role: RecurseRole? = nil
     ) async throws {
-        var args: [String: String] = ["query": query]
-        if batch.id != 0 {
-            args["batch_id"] = "\(batch.id)"
+        var args: [String: String] = [:]
+        if let query, query != "" {
+            args["query"] = query
         }
-        if role != .no_role {
+        if let batchId, batchId != 0 {
+            args["batch_id"] = "\(batchId)"
+        }
+        if let role, role != .no_role {
             args["role"] = role.raw
         }
         let people = try await fetchPeople(args: args)
@@ -115,17 +118,24 @@ class RecurseService {
     private func fetchPeople(args: [String: String]) async throws
         -> [RecursePerson]
     {
+        guard !args.isEmpty else {
+            throw RecurseServiceError.badQuery("must have a qualifier")
+        }
         let argString = args
             .map { k, v in "\(k)=\(v)" }
             .joined(separator: "&")
         var results: [RecursePerson] = []
         while true {
-            let path = "profiles?\(argString)&offset=\(results.count)"
+            let path = "profiles?\(argString)&limit=50&offset=\(results.count)"
             let batch: [RecursePerson] = try await run(path: path)
             if batch.count == 0 {
                 break
             }
             results += batch
+            if results.count > 400 {
+                throw RecurseServiceError.badQuery(
+                    "please restrict your query")
+            }
         }
         return results
     }

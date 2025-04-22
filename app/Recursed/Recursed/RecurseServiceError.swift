@@ -8,6 +8,7 @@ enum RecurseServiceError: Error {
     case httpError(Int)
     case otherError(Error)
     case loggedOut
+    case badQuery(String)
 
     static func from(error: Error) -> RecurseServiceError {
         if let result = error as? RecurseServiceError {
@@ -24,6 +25,7 @@ extension RecurseServiceError: LocalizedError {
         case let .httpError(code): "http error: \(code)"
         case let .otherError(error): "error \(error)"
         case .loggedOut: "must login"
+        case let .badQuery(reason): reason
         }
     }
 }

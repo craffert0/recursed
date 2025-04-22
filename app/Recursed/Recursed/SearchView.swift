@@ -73,7 +73,8 @@ struct SearchView: View {
         Task {
             var my_error: RecurseServiceError? = nil
             do {
-                try await service.search(query: query, batch: selectedBatch,
+                try await service.search(query: query,
+                                         batchId: selectedBatch.id,
                                          role: selectedRole)
             } catch {
                 my_error = RecurseServiceError.from(error: error)
