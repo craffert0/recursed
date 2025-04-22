@@ -4,21 +4,21 @@
 import Foundation
 
 struct RecurseStint: Decodable {
-    let id: Int
-    let for_half_batch: Bool
-    let in_progress: Bool
-    let start_date: String // "2025-02-17"
-    let type: String
+    var id: Int
+    var for_half_batch: Bool
+    var in_progress: Bool
+    var start_date: String // "2025-02-17"
+    var type: String
 
-    let title: String?
-    let end_date: String?
-    let batch: Batch?
+    var title: String?
+    var end_date: String?
+    var batch: Batch?
 
     struct Batch: Decodable {
-        let id: Int
-        let name: String
-        let short_name: String?
-        let alt_name: String?
+        var id: Int
+        var name: String
+        var short_name: String?
+        var alt_name: String?
     }
 }
 

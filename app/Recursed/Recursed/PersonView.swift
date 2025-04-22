@@ -25,8 +25,12 @@ struct PersonView: View {
                     }
                 }
             }
-            if let email = person.email {
-                Link(email, destination: URL(string: "mailto:\(email)")!)
+
+            connections
+
+            if let bio = person.bio_hl {
+                Text("Bio").font(.headline)
+                Text(bio)
             }
             if let before_rc = person.before_rc_hl {
                 Text("Before RC").font(.headline)
@@ -41,6 +45,42 @@ struct PersonView: View {
         }
         .navigationTitle(person.name)
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var connections: some View {
+        HStack {
+            Spacer()
+
+            Link(destination:
+                URL(string: "https://recurse.com/directory/" + person.slug)!)
+            {
+                Label("", systemImage: "globe")
+                    .labelStyle(.iconOnly)
+            }
+            Spacer()
+
+            if let zoom_url = person.zoom_url {
+                Link(destination: URL(string: zoom_url)!) {
+                    Label("", systemImage: "video")
+                        .labelStyle(.iconOnly)
+                }
+                Spacer()
+            }
+            if let email = person.email {
+                Link(destination: URL(string: "mailto:\(email)")!) {
+                    Label("", systemImage: "envelope")
+                        .labelStyle(.iconOnly)
+                }
+                Spacer()
+            }
+            if let phone = person.unformatted_phone_number {
+                Link(destination: URL(string: "tel:\(phone)")!) {
+                    Label("", systemImage: "phone")
+                        .labelStyle(.iconOnly)
+                }
+                Spacer()
+            }
+        }
     }
 }
 

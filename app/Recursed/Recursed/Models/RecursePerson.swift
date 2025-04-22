@@ -9,6 +9,7 @@ struct RecursePerson: Decodable {
     var last_name: String
     var name: String
     var name_hl: String
+    var slug: String
     var stints: [RecurseStint]
     // var before_rc_rendered: String
     // var bio_rendered: String
@@ -65,15 +66,38 @@ struct RecursePerson: Decodable {
 
     static let fakePerson =
         RecursePerson(
-            id: 8_675_309,
-            first_name: "Tommy",
-            last_name: "Tutone",
-            name: "Tommy Tutone",
-            name_hl: "Tommy Tutone",
-            stints: [],
-            before_rc_hl: "Singing fun music.",
-            email: "tommy@tuto.ne",
-            image_path: "https://m.media-amazon.com/images/M/MV5BM2ZkOTNkNTEtNjlmOS00NTdiLTk3NDEtZjAxZGIyZmY3NTdjXkEyXkFqcGdeQXVyMTU3MzMwNQ@@._V1_QL75_UY140_CR24,0,140,140_.jpg",
+            id: 6694,
+            first_name: "Colin",
+            last_name: "Rafferty",
+            name: "Colin Rafferty",
+            name_hl: "Colin Rafferty",
+            slug: "6694-colin-rafferty",
+
+            stints: [
+                RecurseStint(
+                    id: 4705,
+                    for_half_batch: false,
+                    in_progress: true,
+                    start_date: "2025-02-17",
+                    type: "retreat",
+
+                    end_date: "2025-05-09",
+                    batch: RecurseStint.Batch(
+                        id: 172,
+                        name: "Spring 1, 2025",
+                        short_name: "SP1'25",
+                        alt_name: "Spring 1 '25"
+                    )
+                ),
+            ],
+
+            before_rc_hl: "30+ years writing all sorts of software for various companies. Past 6 years writing firmware for Lyft's bikes & scooters (e.g. the white citibike).",
+            during_rc_hl: "I want to teach myself modern Swift and write a Bluesky iPad app that I'd want to use. With my experience working on the Facebook iPhone app...",
+            email: "colin@example.com",
+            image_path: "https://i.imgflip.com/2/110hll.jpg",
+            pronouns: "he/him",
+            unformatted_phone_number: "+17185551212",
+            zoom_url: "https://us04web.zoom.us/j/2517163895?pwd=NGtIOEZQbXRKL3FycFl4a0Evd2NaQT09",
         )
 }
 
