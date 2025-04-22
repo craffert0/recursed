@@ -8,6 +8,7 @@ struct ToolsView: View {
     @State var alertMessage: String = ""
     @State var showAlert: Bool = false
     @State var checking: Bool = false
+    @State var isElevatorUnlocked: Bool = Date.now.isElevatorUnlocked
 
     var body: some View {
         NavigationView {
@@ -23,7 +24,7 @@ struct ToolsView: View {
                 Spacer()
 
                 NavigationLink {
-                    if Date.now.isElevatorUnlocked {
+                    if isElevatorUnlocked {
                         ManualElevatorView()
                     } else {
                         ElevatorBotView()
@@ -45,6 +46,7 @@ struct ToolsView: View {
             .navigationTitle("Tools")
             .navigationBarTitleDisplayMode(.large)
         }
+        .onAppear { isElevatorUnlocked = Date.now.isElevatorUnlocked }
         .alert(alertMessage, isPresented: $showAlert) {}
         .overlay(alignment: .center) {
             if checking {
