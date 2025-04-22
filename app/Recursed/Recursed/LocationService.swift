@@ -15,7 +15,7 @@ class LocationService: NSObject {
 
     override init() {
         super.init()
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
@@ -25,9 +25,9 @@ extension LocationService: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            manager.startMonitoringSignificantLocationChanges()
+            manager.startUpdatingLocation()
         default:
-            manager.stopMonitoringSignificantLocationChanges()
+            manager.stopUpdatingLocation()
             Task { @MainActor in
                 location = nil
                 nearRecurse397 = true
