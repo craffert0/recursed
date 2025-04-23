@@ -41,15 +41,20 @@ struct SearchView: View {
                                     Text(r.description).tag(r)
                                 }
                             }
+                            Button("Search") { search() }
+                                .frame(maxWidth: .infinity,
+                                       alignment: .center)
                         } label: {
                             Text(selectedBatch.name)
                             Spacer()
                             Text(selectedRole.description)
                         }
                     }
-                    Section {
-                        Text("")
-                        PeopleGridView(people: service.searchResults)
+                    if !service.searchResults.isEmpty {
+                        Section {
+                            PeopleGridView(people: service.searchResults)
+                                .padding(.top)
+                        }
                     }
                 }
             }
@@ -90,5 +95,10 @@ struct SearchView: View {
 
 #Preview {
     SearchView()
-        .environment(RecurseService())
+        .environment(
+            {
+                let service = RecurseService()
+                service.searchResults = RecursePerson.fakePeople
+                return service
+            }())
 }

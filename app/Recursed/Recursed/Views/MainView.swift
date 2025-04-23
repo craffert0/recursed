@@ -10,7 +10,7 @@ struct MainView: View {
     var body: some View {
         TabView {
             if location.nearRecurse397 {
-                Tab("Tools", systemImage: "wrench.and.screwdriver") {
+                Tab("Hub Tools", systemImage: "wrench.and.screwdriver") {
                     ToolsView()
                 }
             }
@@ -19,7 +19,7 @@ struct MainView: View {
                 SearchView()
             }
 
-            Tab("Hub", systemImage: "house.circle.fill") {
+            Tab("At The Hub", systemImage: "house.circle.fill") {
                 TodayVisitsView()
             }
 
@@ -27,8 +27,8 @@ struct MainView: View {
                 CurrentView()
             }
 
-            Tab("Settings", systemImage: "gearshape") {
-                SettingsView()
+            Tab("Info", systemImage: "info.circle.fill") {
+                InfoView()
             }
         }
     }
