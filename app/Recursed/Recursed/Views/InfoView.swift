@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {
+struct InfoView: View {
     @Environment(RecurseService.self) var service
     @State private var prefs = PreferencesModel.global
 
@@ -20,13 +20,13 @@ struct SettingsView: View {
                     Text("License").font(.largeTitle)
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle("Info")
             .navigationBarTitleDisplayMode(.large)
         }
     }
 }
 
 #Preview {
-    SettingsView()
+    InfoView()
         .environment(RecurseService())
 }

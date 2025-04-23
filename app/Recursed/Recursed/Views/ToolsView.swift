@@ -35,7 +35,7 @@ struct ToolsView: View {
 
                 Spacer()
 
-                Button("Check in?") {
+                Button("Check in") {
                     checkin()
                 }
                 .font(.largeTitle)
@@ -43,7 +43,7 @@ struct ToolsView: View {
 
                 Spacer()
             }
-            .navigationTitle("Tools")
+            .navigationTitle("Hub Tools")
             .navigationBarTitleDisplayMode(.large)
         }
         .onAppear { isElevatorUnlocked = Date.now.isElevatorUnlocked }
@@ -71,4 +71,9 @@ struct ToolsView: View {
             }
         }
     }
+}
+
+#Preview {
+    ToolsView()
+        .environment(RecurseService())
 }
