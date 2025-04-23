@@ -10,5 +10,7 @@
 	<string>Your location is required to determine if you can check in</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Your location is required to determine if you can check in</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
