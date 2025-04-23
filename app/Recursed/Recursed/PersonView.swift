@@ -8,6 +8,29 @@ struct PersonView: View {
 
     var body: some View {
         ScrollView {
+            imageView
+            stintsView
+            connectionsView
+            SectionView(title: "Bio", text: person.bio_hl)
+            SectionView(title: "Before RC", text: person.before_rc_hl)
+            if person.stints.contains(where: \.in_progress) {
+                SectionView(title: "During RC", text: person.during_rc_hl)
+            }
+        }
+        .navigationTitle(navigationTitle)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var navigationTitle: String {
+        if let pronouns = person.pronouns, pronouns != "" {
+            "\(person.name) (\(pronouns))"
+        } else {
+            person.name
+        }
+    }
+
+    private var imageView: some View {
+        VStack {
             if let image_path = person.image_path {
                 AsyncImage(url: URL(string: image_path)!) {
                     $0
@@ -18,28 +41,7 @@ struct PersonView: View {
                 }
                 .frame(width: 150, height: 150)
             }
-
-            stintsView
-            connectionsView
-
-            if let bio = person.bio_hl, bio != "" {
-                Text("Bio").font(.headline)
-                Text(bio)
-            }
-            if let before_rc = person.before_rc_hl, before_rc != "" {
-                Text("Before RC").font(.headline)
-                Text(before_rc)
-            }
-            if person.stints.contains(where: \.in_progress),
-               let during_rc = person.during_rc_hl,
-               during_rc != ""
-            {
-                Text("During RC").font(.headline)
-                Text(during_rc)
-            }
         }
-        .navigationTitle(person.name)
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     private var stintsView: some View {
@@ -60,40 +62,55 @@ struct PersonView: View {
         HStack {
             Spacer()
 
-            Link(destination:
-                URL(string: "https://recurse.com/directory/" + person.slug)!)
-            {
-                Label("", systemImage: "globe")
-                    .labelStyle(.iconOnly)
-            }
-            Spacer()
+            ConnectionLinkView(
+                url: URL(string: "https://recurse.com/directory/" +
+                    person.slug)!,
+                systemImage: "globe"
+            )
 
             if let zoom_url = person.zoom_url,
                let url = URL(string: zoom_url)
             {
-                Link(destination: url) {
-                    Label("", systemImage: "video")
-                        .labelStyle(.iconOnly)
-                }
-                Spacer()
+                ConnectionLinkView(url: url,
+                                   systemImage: "video")
             }
             if let email = person.email,
                let url = URL(string: "mailto:\(email)")
             {
-                Link(destination: url) {
-                    Label("", systemImage: "envelope")
-                        .labelStyle(.iconOnly)
-                }
-                Spacer()
+                ConnectionLinkView(url: url,
+                                   systemImage: "envelope")
             }
             if let phone = person.unformatted_phone_number,
                let url = URL(string: "tel:\(phone)")
             {
-                Link(destination: url) {
-                    Label("", systemImage: "phone")
-                        .labelStyle(.iconOnly)
-                }
+                ConnectionLinkView(url: url,
+                                   systemImage: "phone")
+            }
+        }
+    }
+
+    struct ConnectionLinkView: View {
+        let url: URL
+        let systemImage: String
+
+        var body: some View {
+            Link(destination: url) {
+                Label("", systemImage: systemImage)
+                    .labelStyle(.iconOnly)
+            }
+            Spacer()
+        }
+    }
+
+    struct SectionView: View {
+        let title: String
+        let text: String?
+
+        var body: some View {
+            if let text, text != "" {
                 Spacer()
+                Text(title).font(.headline)
+                Text(text)
             }
         }
     }
