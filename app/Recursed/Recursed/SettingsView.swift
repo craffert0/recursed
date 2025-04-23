@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var service = RecurseService.global
+    @Environment(RecurseService.self) var service
     @State private var prefs = PreferencesModel.global
 
     var body: some View {
@@ -28,4 +28,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environment(RecurseService())
 }

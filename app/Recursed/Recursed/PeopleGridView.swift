@@ -24,3 +24,11 @@ struct PeopleGridView: View {
         }
     }
 }
+
+#Preview {
+    NavigationView {
+        PeopleGridView(
+            people: RecursePerson.fakePeople
+        )
+    }
+}

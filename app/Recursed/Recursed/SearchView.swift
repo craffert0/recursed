@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var service = RecurseService.global
+    @Environment(RecurseService.self) var service
 
     @State private var query: String = ""
     @State private var selectedBatch: RecurseBatch = SearchView.kAnyBatch
@@ -90,4 +90,5 @@ struct SearchView: View {
 
 #Preview {
     SearchView()
+        .environment(RecurseService())
 }

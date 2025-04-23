@@ -99,6 +99,61 @@ struct RecursePerson: Decodable {
             unformatted_phone_number: "+17185551212",
             zoom_url: "https://us04web.zoom.us/j/2517163895?pwd=NGtIOEZQbXRKL3FycFl4a0Evd2NaQT09",
         )
+
+    static let fakePeople = [
+        RecursePerson.fakePerson,
+
+        RecursePerson(
+            id: 6721,
+            first_name: "Bruce",
+            last_name: "Hill",
+            name: "Bruce Hill",
+            name_hl: "Bruce Hill",
+            slug: "6721-bruce-hill",
+            stints: [],
+            image_path: "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTEzMzQsInB1ciI6ImJsb2JfaWQifX0=--c4bdf9bec23741e8f4395cba1e41daf83d7ff103/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/bruce-face.jpg",
+        ),
+        RecursePerson(
+            id: 6719,
+            first_name: "Michael",
+            last_name: "Rees",
+            name: "Michael Rees",
+            name_hl: "Michael Rees",
+            slug: "6719-michael-rees",
+            stints: [],
+            image_path: "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTEzNDgsInB1ciI6ImJsb2JfaWQifX0=--1ef7d97cacc1d92fb2d6352fe5b8b51c0ef89feb/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/mrees-at-organ.jpeg",
+        ),
+        RecursePerson(
+            id: 6716,
+            first_name: "Omar",
+            last_name: "Hammami",
+            name: "Omar Hammami",
+            name_hl: "Omar Hammami",
+            slug: "6716-omar-hammami",
+            stints: [],
+            image_path: "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTEzMDYsInB1ciI6ImJsb2JfaWQifX0=--8e0dd2bfdf41187c4df18b1261b7dd760674917e/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/IMG_4706.jpeg",
+        ),
+        RecursePerson(
+            id: 6715,
+            first_name: "Presley",
+            last_name: "Graham",
+            name: "Presley Graham",
+            name_hl: "Presley Graham",
+            slug: "6715-presley-graham",
+            stints: [],
+            // image_path: "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTEzMjksInB1ciI6ImJsb2JfaWQifX0=--b2819b99f837d16bb4068f8acae702b5cf19a64f/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/anthropic_profile_cropped.jpg",
+        ),
+        RecursePerson(
+            id: 6711,
+            first_name: "Timothy",
+            last_name: "Harding",
+            name: "Timothy Jonas Harding",
+            name_hl: "Timothy Jonas Harding",
+            slug: "6711-timothy-jonas-harding",
+            stints: [],
+            image_path: "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTEzNzEsInB1ciI6ImJsb2JfaWQifX0=--31e45cba7cc0e184d0ba4cf28ff18923a5f58c66/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/20240926_113630%20copy.jpeg",
+        ),
+    ]
 }
 
 extension RecursePerson: Identifiable {}

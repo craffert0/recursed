@@ -5,34 +5,11 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State private var service = RecurseService.global
-    @State private var location = LocationService.global
+    @Environment(RecurseService.self) var service
 
     var body: some View {
         if case .loggedIn = service.status {
-            TabView {
-                if location.nearRecurse397 {
-                    Tab("Tools", systemImage: "wrench.and.screwdriver") {
-                        ToolsView()
-                    }
-                }
-
-                Tab("Search", systemImage: "magnifyingglass.circle.fill") {
-                    SearchView()
-                }
-
-                Tab("Hub", systemImage: "house.circle.fill") {
-                    TodayVisitsView()
-                }
-
-                Tab("Current", systemImage: "person.circle.fill") {
-                    CurrentView()
-                }
-
-                Tab("Settings", systemImage: "gearshape") {
-                    SettingsView()
-                }
-            }
+            MainView()
         } else {
             LoginView()
         }
@@ -41,4 +18,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(RecurseService())
 }

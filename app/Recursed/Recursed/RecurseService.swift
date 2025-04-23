@@ -7,8 +7,6 @@ import UIKit
 
 @Observable
 class RecurseService {
-    static let global = RecurseService()
-
     var currentVisitors: [RecursePerson] = []
     var currentRecursers: [RecursePerson] = []
     var searchResults: [RecursePerson] = []

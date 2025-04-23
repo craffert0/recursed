@@ -6,8 +6,6 @@ import Observation
 
 @Observable
 class LocationService: NSObject {
-    static let global = LocationService()
-
     var location: CLLocation? = nil
     var nearRecurse397: Bool = true
 

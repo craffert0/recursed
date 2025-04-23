@@ -25,3 +25,9 @@ struct GridPersonView: View {
         }
     }
 }
+
+#Preview {
+    Grid {
+        GridPersonView(person: RecursePerson.fakePerson)
+    }
+}

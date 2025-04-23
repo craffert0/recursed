@@ -6,11 +6,16 @@ import SwiftUI
 
 @main
 struct RecursedApp: App {
+    @State var service = RecurseService()
+    @State var location = LocationService()
+
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 ContentView()
             }
         }
+        .environment(service)
+        .environment(location)
     }
 }

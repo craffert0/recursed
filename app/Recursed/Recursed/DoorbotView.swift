@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct DoorbotView: View {
-    @State private var service = RecurseService.global
+    @Environment(RecurseService.self) var service
     @State var control = BotControl(name: "Doorbot")
 
     var body: some View {
@@ -28,4 +28,5 @@ struct DoorbotView: View {
     NavigationView {
         DoorbotView()
     }
+    .environment(RecurseService())
 }

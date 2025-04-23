@@ -25,3 +25,13 @@ struct BotButtonView: View {
         .buttonStyle(.bordered)
     }
 }
+
+#Preview {
+    VStack {
+        BotButtonView("button",
+                      control: BotControl(name: "Bot"))
+        {
+            "pressed"
+        }
+    }
+}

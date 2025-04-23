@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct ToolsView: View {
-    @State private var service = RecurseService.global
+    @Environment(RecurseService.self) var service
     @State var alertMessage: String = ""
     @State var showAlert: Bool = false
     @State var checking: Bool = false

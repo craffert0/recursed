@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct BatchView: View {
-    @State private var service = RecurseService.global
+    @Environment(RecurseService.self) var service
 
     let batch: RecurseStint.Batch
 
