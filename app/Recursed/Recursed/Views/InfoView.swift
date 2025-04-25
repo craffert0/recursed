@@ -29,7 +29,7 @@ struct InfoView: View {
         NavigationView {
             Form {
                 Section {
-                    Text("All Code Copyright © 2025 Colin Rafferty")
+                    Text("Copyright © 2025 Colin Rafferty")
                         .frame(maxWidth: .infinity, alignment: .center)
                     NavigationLink {
                         LicenseView(model: LicenseModel())
