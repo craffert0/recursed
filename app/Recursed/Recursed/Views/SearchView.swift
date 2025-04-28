@@ -14,6 +14,7 @@ struct SearchView: View {
     @State private var searching: Bool = false
     @State private var showsError: Bool = false
     @State private var error: RecurseServiceError?
+    @State private var haveSearched: Bool = false
 
     private static let kAnyBatch =
         RecurseBatch(id: 0, name: "Any Batch", start_date: "", end_date: "")
@@ -55,6 +56,8 @@ struct SearchView: View {
                             PeopleGridView(people: service.searchResults)
                                 .padding(.top)
                         }
+                    } else if haveSearched {
+                        ContentUnavailableView.search
                     }
                 }
             }
@@ -87,6 +90,7 @@ struct SearchView: View {
             Task { @MainActor in
                 error = my_error
                 showsError = my_error != nil
+                haveSearched = !showsError
                 searching = false
             }
         }
