@@ -103,14 +103,14 @@ struct PersonView: View {
     }
 
     struct SectionView: View {
-        let title: String
-        let text: String?
+        @State var title: String
+        @State var text: String?
 
         var body: some View {
             if let text, text != "" {
                 Spacer()
                 Text(title).font(.headline)
-                Text(text)
+                Text(text).padding()
             }
         }
     }
@@ -118,6 +118,6 @@ struct PersonView: View {
 
 #Preview {
     NavigationStack {
-        PersonView(person: RecursePerson.fakePerson)
+        PersonView(person: .fakePerson)
     }
 }
