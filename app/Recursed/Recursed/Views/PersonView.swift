@@ -49,7 +49,10 @@ struct PersonView: View {
             ForEach(person.stints) {
                 if let batch = $0.batch {
                     NavigationLink {
-                        BatchView(batch: batch)
+                        SimpleSearchView(
+                            title: batch.name,
+                            searchArgs: ["batch_id": "\(batch.id)"]
+                        )
                     } label: {
                         Text(batch.short_name ?? batch.name)
                     }

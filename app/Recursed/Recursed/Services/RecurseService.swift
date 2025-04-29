@@ -3,13 +3,12 @@
 
 import Foundation
 import Observation
+import SwiftUI
 import UIKit
 
 @Observable
 class RecurseService {
     var currentVisitors: [RecursePerson] = []
-    var currentRecursers: [RecursePerson] = []
-    var searchResults: [RecursePerson] = []
     var allBatches: [RecurseBatch] = []
     var status: Status =
         PreferencesModel.global.authorizationToken == nil
@@ -59,16 +58,18 @@ class RecurseService {
         if preferences.userId != nil {
             return
         }
-        let newMe: RecursePerson = try await run(path: "profiles/me")
+        let newMe: RecursePerson =
+            try await URLSession.shared.object(path: "profiles/me")
         Task { @MainActor in
             preferences.userId = newMe.id
         }
     }
 
     func fetchVisitors() async throws {
-        var results: [RecursePerson] = []
         var visits: [RecurseHubVisit] =
-            try await run(path: "hub_visits?date=\(Date.now.recurse)")
+            try await URLSession.shared.object(
+                path: "hub_visits?date=\(Date.now.recurse)"
+            )
         visits.sort { a, b in a.person.name < b.person.name }
         if currentVisitors.count == 0 {
             for v in visits {
@@ -78,6 +79,7 @@ class RecurseService {
                 }
             }
         } else {
+            var results: [RecursePerson] = []
             for v in visits {
                 try await results.append(person(id: v.person.id))
             }
@@ -87,59 +89,10 @@ class RecurseService {
         }
     }
 
-    func fetchCurrent() async throws {
-        let people = try await fetchPeople(args: ["scope": "current"])
-        Task { @MainActor in
-            currentRecursers = people.sorted { a, b in a.name < b.name }
-        }
-    }
-
-    func search(
-        query: String? = nil, batchId: Int? = nil, role: RecurseRole? = nil
-    ) async throws {
-        var args: [String: String] = [:]
-        if let query, query != "" {
-            args["query"] = query
-        }
-        if let batchId, batchId != 0 {
-            args["batch_id"] = "\(batchId)"
-        }
-        if let role, role != .no_role {
-            args["role"] = role.raw
-        }
-        let people = try await fetchPeople(args: args)
-        Task { @MainActor in
-            searchResults = people.sorted { a, b in a.name < b.name }
-        }
-    }
-
-    private func fetchPeople(args: [String: String]) async throws
-        -> [RecursePerson]
-    {
-        guard !args.isEmpty else {
-            throw RecurseServiceError.badQuery("must have a qualifier")
-        }
-        let argString = args
-            .map { k, v in "\(k)=\(v)" }
-            .joined(separator: "&")
-        var results: [RecursePerson] = []
-        while true {
-            let path = "profiles?\(argString)&limit=50&offset=\(results.count)"
-            let batch: [RecursePerson] = try await run(path: path)
-            if batch.count == 0 {
-                break
-            }
-            results += batch
-            if results.count > 400 {
-                throw RecurseServiceError.badQuery(
-                    "please restrict your query")
-            }
-        }
-        return results
-    }
-
     func loadBatches() async throws {
-        let batches: [RecurseBatch] = try await run(path: "batches")
+        guard allBatches.isEmpty else { return }
+        let batches: [RecurseBatch] =
+            try await URLSession.shared.object(path: "batches")
         Task { @MainActor in
             allBatches = batches
         }
@@ -151,7 +104,8 @@ class RecurseService {
             return person
         }
 
-        let person: RecursePerson = try await run(path: "profiles/\(id)")
+        let person: RecursePerson =
+            try await URLSession.shared.object(path: "profiles/\(id)")
         people[id] = person
         return person
     }
@@ -169,8 +123,10 @@ class RecurseService {
             throw RecurseServiceError.loggedOut
         }
         let _: RecurseHubVisit =
-            try await run(path: "hub_visits/\(userId)/\(Date.now.recurse)",
-                          httpMethod: "PATCH")
+            try await URLSession.shared.object(
+                path: "hub_visits/\(userId)/\(Date.now.recurse)",
+                httpMethod: "PATCH"
+            )
     }
 
     func doorbotBuzz() async throws -> String {
@@ -230,26 +186,5 @@ class RecurseService {
         preferences.authorizationToken =
             try JSONDecoder().decode(RecurseTokens.self,
                                      from: data).token
-    }
-
-    private func run<T: Decodable>(path: String,
-                                   httpMethod: String = "GET") async throws -> T
-    {
-        guard let authorizationToken = preferences.authorizationToken else {
-            throw RecurseServiceError.loggedOut
-        }
-        let url = URL(recurse: path)
-        var request = URLRequest(url: url)
-        request.httpMethod = httpMethod
-        request.setValue("Bearer " + authorizationToken,
-                         forHTTPHeaderField: "Authorization")
-        let (data, response) =
-            try await URLSession.shared.data(for: request)
-
-        let http_response = response as! HTTPURLResponse
-        guard http_response.statusCode == 200 else {
-            throw RecurseServiceError.httpError(http_response.statusCode)
-        }
-        return try JSONDecoder().decode(T.self, from: data)
     }
 }

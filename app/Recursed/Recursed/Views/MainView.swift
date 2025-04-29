@@ -20,11 +20,12 @@ struct MainView: View {
             }
 
             Tab("At The Hub", systemImage: "house.circle.fill") {
-                TodayVisitsView()
+                TodayVisitsView(service: service)
             }
 
             Tab("Current", systemImage: "person.circle.fill") {
-                CurrentView()
+                SimpleSearchView(title: "Current Recursers",
+                                 searchArgs: ["scope": "current"])
             }
 
             Tab("Info", systemImage: "info.circle.fill") {

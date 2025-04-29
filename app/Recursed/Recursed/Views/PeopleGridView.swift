@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct PeopleGridView: View {
-    var people: [RecursePerson]
+    @Binding var people: [RecursePerson]
 
     let columns = [
         GridItem(.adaptive(minimum: 80)),
@@ -26,9 +26,8 @@ struct PeopleGridView: View {
 }
 
 #Preview {
+    let fakePeople = Binding<[RecursePerson]>() { .fakePeople } set: { _ in }
     NavigationView {
-        PeopleGridView(
-            people: RecursePerson.fakePeople
-        )
+        PeopleGridView(people: fakePeople)
     }
 }

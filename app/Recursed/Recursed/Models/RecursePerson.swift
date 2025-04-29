@@ -63,7 +63,9 @@ struct RecursePerson: Decodable {
     var zulip_intro_hl: String?
     var zulip_intro_match: Bool?
     var zulip_intro_truncated: String?
+}
 
+extension RecursePerson {
     static let fakePerson =
         RecursePerson(
             id: 6694,
@@ -99,7 +101,9 @@ struct RecursePerson: Decodable {
             unformatted_phone_number: "+17185551212",
             zoom_url: "https://us04web.zoom.us/j/2517163895?pwd=NGtIOEZQbXRKL3FycFl4a0Evd2NaQT09",
         )
+}
 
+extension [RecursePerson] {
     static let fakePeople = [
         RecursePerson.fakePerson,
 

@@ -5,7 +5,7 @@ import Foundation
 import SwiftUI
 
 struct TodayVisitsView: View {
-    @Environment(RecurseService.self) var service
+    @State var service: RecurseService
     @Environment(LocationService.self) var location
     @State private var preferences = PreferencesModel.global
     @State var showsError: Bool = false
@@ -23,7 +23,7 @@ struct TodayVisitsView: View {
                         checkin()
                     }.buttonStyle(.bordered)
                 }
-                PeopleGridView(people: service.currentVisitors)
+                PeopleGridView(people: $service.currentVisitors)
             }
             .navigationTitle("At The Hub")
             .navigationBarTitleDisplayMode(.large)
