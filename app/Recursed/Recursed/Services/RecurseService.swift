@@ -10,6 +10,7 @@ import UIKit
 class RecurseService {
     var currentVisitors: [RecursePerson] = []
     var allBatches: [RecurseBatch] = []
+    var doorbotStatus: DoorbotStatus = .unknown
     var status: Status =
         PreferencesModel.global.authorizationToken == nil
             ? .loggedOut : .loggedIn
@@ -133,18 +134,36 @@ class RecurseService {
         try await doorbotRun(command: "buzz")
     }
 
+    func updateDoorbotStatus() async {
+        do {
+            let response = try await doorbotRun(command: "status",
+                                                httpMethod: "GET")
+            Task { @MainActor in
+                doorbotStatus = DoorbotStatus.from(response: response)
+            }
+        } catch {
+            let response = "\(error)"
+            Task { @MainActor in
+                doorbotStatus = .bad(response)
+            }
+        }
+    }
+
     func elevatorBuzz() async throws -> String {
         try await doorbotRun(command: "unlock")
     }
 
-    private func doorbotRun(command: String) async throws -> String {
+    private func doorbotRun(
+        command: String,
+        httpMethod: String = "POST"
+    ) async throws -> String {
         guard let authorizationToken = preferences.authorizationToken else {
             throw RecurseServiceError.loggedOut
         }
         let url =
             URL(string: "https://doorbot.recurse.com/\(command)_mobile")!
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = httpMethod
         request.setValue("Bearer " + authorizationToken,
                          forHTTPHeaderField: "Authorization")
         let (data, response) =

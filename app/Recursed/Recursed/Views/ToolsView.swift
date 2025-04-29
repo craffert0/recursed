@@ -53,6 +53,7 @@ struct ToolsView: View {
                 ProgressView()
             }
         }
+        .task { await service.updateDoorbotStatus() }
     }
 
     private func checkin() {
