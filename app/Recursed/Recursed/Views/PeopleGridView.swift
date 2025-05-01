@@ -27,7 +27,7 @@ struct PeopleGridView: View {
 
 #Preview {
     let fakePeople = Binding<[RecursePerson]>() { .fakePeople } set: { _ in }
-    NavigationView {
+    NavigationStack {
         PeopleGridView(people: fakePeople)
     }
 }

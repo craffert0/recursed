@@ -12,7 +12,7 @@ struct TodayVisitsView: View {
     @State var error: RecurseServiceError?
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 if location.nearRecurse397,
                    let userId = preferences.userId,

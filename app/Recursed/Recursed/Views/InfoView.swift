@@ -26,7 +26,7 @@ struct InfoView: View {
         "(https://github.com/craffert0/recursed)"
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     Text("Copyright © 2025 Colin Rafferty")

@@ -22,7 +22,7 @@ struct SearchView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     searchFieldsSection

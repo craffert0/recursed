@@ -38,7 +38,8 @@ struct ManualElevatorView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ManualElevatorView()
     }
+    .environment(RecurseService())
 }
