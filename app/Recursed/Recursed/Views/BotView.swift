@@ -41,7 +41,7 @@ struct BotView<Content: View>: View {
                 isPoliciesPresented = true
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .popover(isPresented: $isPoliciesPresented) {
+            .sheet(isPresented: $isPoliciesPresented) {
                 PoliciesView(control: control)
             }
         }

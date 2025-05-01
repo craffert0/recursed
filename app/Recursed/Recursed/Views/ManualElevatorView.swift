@@ -28,7 +28,7 @@ struct ManualElevatorView: View {
                 Button("ElevatorBot") {
                     isElevatorBotPresented = true
                 }
-                .popover(isPresented: $isElevatorBotPresented) {
+                .sheet(isPresented: $isElevatorBotPresented) {
                     ElevatorBotView()
                 }
                 .buttonStyle(.bordered)
