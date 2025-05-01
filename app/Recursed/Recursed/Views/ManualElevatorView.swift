@@ -28,7 +28,7 @@ struct ManualElevatorView: View {
                 Button("ElevatorBot") {
                     isElevatorBotPresented = true
                 }
-                .popover(isPresented: $isElevatorBotPresented) {
+                .sheet(isPresented: $isElevatorBotPresented) {
                     ElevatorBotView()
                 }
                 .buttonStyle(.bordered)
@@ -38,7 +38,8 @@ struct ManualElevatorView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ManualElevatorView()
     }
+    .environment(RecurseService())
 }

@@ -10,7 +10,7 @@ struct SimpleSearchView: View {
     @State var haveSearched: Bool = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 PeopleGridView(people: $model.people)
             }

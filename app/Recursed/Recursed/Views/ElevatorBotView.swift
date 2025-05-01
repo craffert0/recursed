@@ -34,7 +34,7 @@ struct ElevatorBotView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ElevatorBotView()
     }
     .environment(RecurseService())

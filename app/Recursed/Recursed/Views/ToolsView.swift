@@ -11,7 +11,7 @@ struct ToolsView: View {
     @State var isElevatorUnlocked: Bool = Date.now.isElevatorUnlocked
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Spacer()
 
