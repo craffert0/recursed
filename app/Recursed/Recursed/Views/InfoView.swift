@@ -5,6 +5,7 @@ import SwiftUI
 
 struct InfoView: View {
     @Environment(RecurseService.self) var service
+    @State var showLicense: Bool = false
     @State private var prefs = PreferencesModel.global
     @State private var thanksMarkdowns = [
         "Thanks to " +
@@ -28,28 +29,46 @@ struct InfoView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    Text("Copyright © 2025 Colin Rafferty")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    NavigationLink {
-                        LicenseView(model: LicenseModel())
-                    } label: {
-                        Text("Licensed GNU GPLv2.0")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                    }
-                    Text(try! AttributedString(markdown: githubMarkdown))
-                        .frame(maxWidth: .infinity, alignment: .center)
+                copyrightView
+                thanksView
+                Button("Logout") {
+                    service.logout()
                 }
-                Section {
-                    ForEach(thanksMarkdowns, id: \.self) {
-                        Text(try! AttributedString(markdown: $0))
-                    }
-                }
-                Button("Logout") { service.logout() }
-                    .frame(maxWidth: .infinity, alignment: .center)
+                .frame(maxWidth: .infinity, alignment: .center)
             }
             .navigationTitle("Recursed!")
             .navigationBarTitleDisplayMode(.large)
+        }
+    }
+
+    private var copyrightView: some View {
+        Section {
+            Text(
+                "Copyright © 2025 Colin Rafferty"
+            )
+            .frame(maxWidth: .infinity, alignment: .center)
+
+            Button("Licensed GNU GPLv2.0") {
+                showLicense = true
+            }
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .sheet(isPresented: $showLicense) {
+                LicenseView(model: LicenseModel())
+            }
+
+            Text(
+                try! AttributedString(markdown: githubMarkdown)
+            )
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+    }
+
+    private var thanksView: some View {
+        Section {
+            ForEach(thanksMarkdowns, id: \.self) {
+                Text(try! AttributedString(markdown: $0))
+            }
         }
     }
 }
