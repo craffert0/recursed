@@ -11,11 +11,9 @@ struct RecursedApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                ContentView()
-            }
+            ContentView()
+                .environment(service)
+                .environment(location)
         }
-        .environment(service)
-        .environment(location)
     }
 }
