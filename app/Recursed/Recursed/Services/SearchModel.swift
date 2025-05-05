@@ -10,12 +10,24 @@ class SearchModel {
     var haveSearched: Bool = false
     var showsError: Bool = false
     var error: RecurseServiceError?
+    var prefs = PreferencesModel.global
 
     init(people: [RecursePerson] = []) {
         self.people = people
     }
 
     func search(args: [String: String]) async {
+        if prefs.debugMode {
+            Task { @MainActor in
+                people = .fakePeople
+                searching = false
+                haveSearched = true
+                showsError = false
+                error = nil
+            }
+            return
+        }
+
         Task { @MainActor in
             people = []
             searching = true
