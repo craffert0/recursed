@@ -7,6 +7,7 @@ struct InfoView: View {
     @Environment(RecurseService.self) var service
     @State var showLicense: Bool = false
     @State private var prefs = PreferencesModel.global
+    @State private var showDebugMode = false
     @State private var thanksMarkdowns = [
         "Thanks to " +
             "[Nick](https://recurse.com/directory/34)" +
@@ -47,6 +48,13 @@ struct InfoView: View {
                 "Copyright © 2025 Colin Rafferty"
             )
             .frame(maxWidth: .infinity, alignment: .center)
+            .onTapGesture(count: 10) {
+                showDebugMode = true
+                prefs.debugMode = true
+            }
+            .popover(isPresented: $showDebugMode) {
+                Text("oops, all Marxes!").padding()
+            }
 
             Button("Licensed GNU GPLv2.0") {
                 showLicense = true

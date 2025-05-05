@@ -67,6 +67,15 @@ class RecurseService {
     }
 
     func fetchVisitors() async throws {
+        if preferences.debugMode {
+            Task { @MainActor in
+                currentVisitors = .fakePeople.sorted {
+                    a, b in a.name < b.name
+                }
+            }
+            return
+        }
+
         var visits: [RecurseHubVisit] =
             try await URLSession.shared.object(
                 path: "hub_visits?date=\(Date.now.recurse)"
