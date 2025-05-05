@@ -50,3 +50,13 @@ struct TodayVisitsView: View {
         }
     }
 }
+
+#Preview {
+    TodayVisitsView(service: {
+        let service = RecurseService()
+        service.currentVisitors = [RecursePerson].fakePeople
+            .sorted { a, b in a.name < b.name }
+        return service
+    }())
+        .environment(LocationService())
+}
