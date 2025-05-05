@@ -12,6 +12,7 @@ struct SearchView: View {
     @State var selectedBatch: RecurseBatch = SearchView.kAnyBatch
     @State var selectedRole: RecurseRole = .no_role
 
+    @FocusState private var queryIsFocused
     @State private var showOptions: Bool = false
 
     private static let kAnyBatch =
@@ -48,6 +49,7 @@ struct SearchView: View {
             TextField("Search name or keyword", text: $query)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
+                .focused($queryIsFocused)
                 .onSubmit { search() }
 
             DisclosureGroup(isExpanded: $showOptions) {
@@ -87,6 +89,7 @@ extension SearchView {
     @MainActor
     private func search() {
         showOptions = false
+        queryIsFocused = false
         var args: [String: String] = [:]
         if query != "" {
             args["query"] = query
