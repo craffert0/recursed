@@ -10,6 +10,7 @@ struct LicenseView: View {
         ScrollView {
             VStack {
                 Text(model.data)
+                    .textSelection(.enabled)
                     .frame(maxWidth: .infinity)
             }
         }

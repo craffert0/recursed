@@ -114,7 +114,9 @@ struct PersonView: View {
             if let text, text != "" {
                 Spacer()
                 Text(title).font(.headline)
-                Text(text).padding()
+                Text(text)
+                    .textSelection(.enabled)
+                    .padding()
             }
         }
     }
