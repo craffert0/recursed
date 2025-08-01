@@ -6,7 +6,7 @@ import Observation
 
 @Observable
 class LocationService: NSObject {
-    var location: CLLocation? = nil
+    var location: CLLocation?
     var nearRecurse397: Bool = true
 
     private let locationManager = CLLocationManager()

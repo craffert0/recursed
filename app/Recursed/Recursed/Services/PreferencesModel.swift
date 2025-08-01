@@ -9,10 +9,10 @@ class PreferencesModel: ObservableObject {
 
     @AppStorage("settings.emailAddress") var emailAddress: String = ""
     @AppStorage("settings.userId") var userId: Int?
-    @Published public var error: KeychainError? = nil
+    @Published var error: KeychainError? = nil
     @Published var debugMode: Bool = false
     private var actualToken = AuthorizationToken()
-    public var authorizationToken: String? {
+    var authorizationToken: String? {
         get {
             actualToken.value
         }
