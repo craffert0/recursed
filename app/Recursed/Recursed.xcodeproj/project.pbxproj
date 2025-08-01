@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3B8C15B62E3D1C82004E3D46 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8C15B52E3D1C82004E3D46 /* CachedAsyncImage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3B2819B12DACB4FC000026A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B8C15B62E3D1C82004E3D46 /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = Recursed;
 			packageProductDependencies = (
+				3B8C15B52E3D1C82004E3D46 /* CachedAsyncImage */,
 			);
 			productName = Recursed;
 			productReference = 3B2819A02DACB4FA000026A1 /* Recursed!.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 3B2819972DACB4FA000026A1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3B8C15B42E3D1C82004E3D46 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3B2819A12DACB4FA000026A1 /* Products */;
 			projectDirPath = "";
@@ -608,6 +617,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3B8C15B42E3D1C82004E3D46 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = exactVersion;
+				version = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B8C15B52E3D1C82004E3D46 /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B8C15B42E3D1C82004E3D46 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3B2819982DACB4FA000026A1 /* Project object */;
 }
