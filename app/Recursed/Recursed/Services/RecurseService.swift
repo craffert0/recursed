@@ -158,6 +158,10 @@ class RecurseService {
         }
     }
 
+    func stairwellBuzz() async throws -> String {
+        try await doorbotRun(command: "stairwell")
+    }
+
     func elevatorBuzz() async throws -> String {
         try await doorbotRun(command: "unlock")
     }

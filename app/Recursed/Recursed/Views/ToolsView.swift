@@ -18,6 +18,8 @@ struct ToolsView: View {
                 Spacer()
                 elevatorBotView
                 Spacer()
+                stairwellBotView
+                Spacer()
                 checkinView
                 Spacer()
             }
@@ -51,6 +53,14 @@ struct ToolsView: View {
             }
         } label: {
             label("Elevator", "arrowshape.up")
+        }
+    }
+
+    private var stairwellBotView: some View {
+        NavigationLink {
+            StairwellBotView()
+        } label: {
+            label("StairwellBot", "figure.stairs")
         }
     }
 
