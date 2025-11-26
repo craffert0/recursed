@@ -8,7 +8,7 @@ struct StairwellBotView: View {
     @State var control = BotControl(name: "StairwellBot")
 
     var body: some View {
-        BotView(control: control, problem: problem) {
+        BotView(control: control) {
             Text("1. Climb to the 4th floor.")
             HStack {
                 Text("2. Tap")
@@ -20,14 +20,6 @@ struct StairwellBotView: View {
             Text("4. Welcome!")
         }
         Text("StairwellBotView")
-    }
-
-    private var problem: String? {
-        switch service.doorbotStatus {
-        case .unknown: "Doorbot status unknown"
-        case .good: nil
-        case let .bad(reason): "Doorbot may be down: \(reason)"
-        }
     }
 }
 

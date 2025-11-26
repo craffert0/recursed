@@ -8,7 +8,7 @@ struct DoorbotView: View {
     @State var control = BotControl(name: "Doorbot")
 
     var body: some View {
-        BotView(control: control, problem: problem) {
+        BotView(control: control) {
             Text("1. Approach the building entrance.")
             Text("2. Using the arrows on the intercom, call the" +
                 " 4th floor. This will ring the intercom" +
