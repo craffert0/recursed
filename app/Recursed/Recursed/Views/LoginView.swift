@@ -16,17 +16,21 @@ struct LoginView: View {
     @State var error: RecurseServiceError?
     @State var selection: Which = .key
 
-    @Environment(RecurseService.self) var service
+    @EnvironmentObject var service: RecurseService
 
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
-                Tab("Key", systemImage: "key", value: Which.key) {
-                    keyBody
-                }
-                Tab("Password", systemImage: "house.circle.fill", value: Which.password) {
-                    loginBody
-                }
+                keyBody
+                    .tabItem {
+                        Label("Key", systemImage: "key")
+                    }
+                    .tag(Which.key)
+                loginBody
+                    .tabItem {
+                        Label("Password", systemImage: "house.circle.fill")
+                    }
+                    .tag(Which.password)
             }
             Button("Login") {
                 login()
@@ -114,5 +118,5 @@ struct LoginView: View {
     VStack {
         LoginView()
     }
-    .environment(RecurseService())
+    .environmentObject(RecurseService())
 }

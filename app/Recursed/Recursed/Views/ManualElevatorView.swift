@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct ManualElevatorView: View {
-    @State var control = BotControl(name: "ManualElevator")
+    @StateObject var control = BotControl(name: "ManualElevator")
     @State var isElevatorBotPresented: Bool = false
 
     var body: some View {
@@ -41,5 +41,5 @@ struct ManualElevatorView: View {
     NavigationStack {
         ManualElevatorView()
     }
-    .environment(RecurseService())
+    .environmentObject(RecurseService())
 }

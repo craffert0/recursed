@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct InfoView: View {
-    @Environment(RecurseService.self) var service
+    @EnvironmentObject var service: RecurseService
     @State var showLicense: Bool = false
     @State private var prefs = PreferencesModel.global
     @State private var showDebugMode = false
@@ -83,9 +83,10 @@ struct InfoView: View {
 
 #Preview {
     TabView {
-        Tab("Info", systemImage: "info.circle.fill") {
-            InfoView()
-        }
+        InfoView()
+            .tabItem {
+                Label("Info", systemImage: "info.circle.fill")
+            }
     }
-    .environment(RecurseService())
+    .environmentObject(RecurseService())
 }

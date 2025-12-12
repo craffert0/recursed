@@ -5,8 +5,8 @@ import Foundation
 import SwiftUI
 
 struct TodayVisitsView: View {
-    @State var service: RecurseService
-    @Environment(LocationService.self) var location
+    @ObservedObject var service: RecurseService
+    @EnvironmentObject var location: LocationService
     @State private var preferences = PreferencesModel.global
     @State var showsError: Bool = false
     @State var error: RecurseServiceError?
@@ -58,5 +58,5 @@ struct TodayVisitsView: View {
             .sorted { a, b in a.name < b.name }
         return service
     }())
-        .environment(LocationService())
+        .environmentObject(LocationService())
 }

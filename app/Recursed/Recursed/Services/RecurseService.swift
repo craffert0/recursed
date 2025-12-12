@@ -2,16 +2,15 @@
 // Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
 
 import Foundation
-import Observation
+import Combine
 import SwiftUI
 import UIKit
 
-@Observable
-class RecurseService {
-    var currentVisitors: [RecursePerson] = []
-    var allBatches: [RecurseBatch] = []
-    var doorbotStatus: DoorbotStatus = .unknown
-    var status: Status =
+class RecurseService: ObservableObject {
+    @Published var currentVisitors: [RecursePerson] = []
+    @Published var allBatches: [RecurseBatch] = []
+    @Published var doorbotStatus: DoorbotStatus = .unknown
+    @Published var status: Status =
         PreferencesModel.global.authorizationToken == nil
             ? .loggedOut : .loggedIn
 

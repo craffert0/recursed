@@ -4,39 +4,44 @@
 import SwiftUI
 
 struct MainView: View {
-    @Environment(RecurseService.self) var service
-    @Environment(LocationService.self) var location
+    @EnvironmentObject var service: RecurseService
+    @EnvironmentObject var location: LocationService
 
     var body: some View {
         TabView {
             if location.nearRecurse397 {
-                Tab("Hub Tools", systemImage: "wrench.and.screwdriver") {
-                    ToolsView()
+                ToolsView()
+                    .tabItem {
+                        Label("Hub Tools", systemImage: "wrench.and.screwdriver")
+                    }
+            }
+
+            SearchView()
+                .tabItem {
+                    Label("Search", systemImage: "magnifyingglass.circle.fill")
                 }
-            }
 
-            Tab("Search", systemImage: "magnifyingglass.circle.fill") {
-                SearchView()
-            }
+            TodayVisitsView(service: service)
+                .tabItem {
+                    Label("At The Hub", systemImage: "house.circle.fill")
+                }
 
-            Tab("At The Hub", systemImage: "house.circle.fill") {
-                TodayVisitsView(service: service)
-            }
+            SimpleSearchView(title: "Current Recursers",
+                             searchArgs: ["scope": "current"])
+                .tabItem {
+                    Label("Current", systemImage: "person.circle.fill")
+                }
 
-            Tab("Current", systemImage: "person.circle.fill") {
-                SimpleSearchView(title: "Current Recursers",
-                                 searchArgs: ["scope": "current"])
-            }
-
-            Tab("Info", systemImage: "info.circle.fill") {
-                InfoView()
-            }
+            InfoView()
+                .tabItem {
+                    Label("Info", systemImage: "info.circle.fill")
+                }
         }
     }
 }
 
 #Preview {
     MainView()
-        .environment(RecurseService())
-        .environment(LocationService())
+        .environmentObject(RecurseService())
+        .environmentObject(LocationService())
 }

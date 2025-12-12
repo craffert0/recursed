@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct ToolsView: View {
-    @Environment(RecurseService.self) var service
+    @EnvironmentObject var service: RecurseService
     @State var alertMessage: String = ""
     @State var showAlert: Bool = false
     @State var checking: Bool = false
@@ -76,5 +76,5 @@ struct ToolsView: View {
 
 #Preview {
     ToolsView()
-        .environment(RecurseService())
+        .environmentObject(RecurseService())
 }

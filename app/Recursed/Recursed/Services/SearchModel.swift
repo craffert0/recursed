@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
 
-import Observation
+import Combine
 
-@Observable
-class SearchModel {
-    var people: [RecursePerson]
-    var searching: Bool = false
-    var haveSearched: Bool = false
-    var showsError: Bool = false
-    var error: RecurseServiceError?
+class SearchModel: ObservableObject {
+    @Published var people: [RecursePerson]
+    @Published var searching: Bool = false
+    @Published var haveSearched: Bool = false
+    @Published var showsError: Bool = false
+    @Published var error: RecurseServiceError?
     var prefs = PreferencesModel.global
 
     init(people: [RecursePerson] = []) {

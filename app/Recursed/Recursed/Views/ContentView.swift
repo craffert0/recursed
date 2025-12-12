@@ -5,7 +5,7 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(RecurseService.self) var service
+    @EnvironmentObject var service: RecurseService
 
     var body: some View {
         if case .loggedIn = service.status {
@@ -18,5 +18,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environment(RecurseService())
+        .environmentObject(RecurseService())
 }

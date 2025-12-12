@@ -4,8 +4,8 @@
 import SwiftUI
 
 struct DoorbotView: View {
-    @Environment(RecurseService.self) var service
-    @State var control = BotControl(name: "Doorbot")
+    @EnvironmentObject var service: RecurseService
+    @StateObject var control = BotControl(name: "Doorbot")
 
     var body: some View {
         BotView(control: control, problem: problem) {
@@ -34,29 +34,32 @@ struct DoorbotView: View {
 
 #Preview {
     TabView {
-        Tab("unknown", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .unknown
-                    return r
-                }())
-        }
-        Tab("good", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .good
-                    return r
-                }())
-        }
-        Tab("bad", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .bad("some problem")
-                    return r
-                }())
-        }
+        DoorbotView()
+            .environmentObject({
+                let r = RecurseService()
+                r.doorbotStatus = .unknown
+                return r
+            }())
+            .tabItem {
+                Label("unknown", systemImage: "magnifyingglass.circle.fill")
+            }
+        DoorbotView()
+            .environmentObject({
+                let r = RecurseService()
+                r.doorbotStatus = .good
+                return r
+            }())
+            .tabItem {
+                Label("good", systemImage: "magnifyingglass.circle.fill")
+            }
+        DoorbotView()
+            .environmentObject({
+                let r = RecurseService()
+                r.doorbotStatus = .bad("some problem")
+                return r
+            }())
+            .tabItem {
+                Label("bad", systemImage: "magnifyingglass.circle.fill")
+            }
     }
 }

@@ -4,9 +4,9 @@
 import SwiftUI
 
 struct SearchView: View {
-    @Environment(RecurseService.self) var service
+    @EnvironmentObject var service: RecurseService
 
-    @State var model: SearchModel
+    @StateObject var model: SearchModel
 
     @State var query: String = ""
     @State var selectedBatch: RecurseBatch = SearchView.kAnyBatch
@@ -19,7 +19,7 @@ struct SearchView: View {
         RecurseBatch(id: 0, name: "Any Batch", start_date: "", end_date: "")
 
     init(people: [RecursePerson] = []) {
-        model = SearchModel(people: people)
+        _model = StateObject(wrappedValue: SearchModel(people: people))
     }
 
     var body: some View {
@@ -79,7 +79,16 @@ struct SearchView: View {
             if !model.people.isEmpty {
                 PeopleGridView(people: $model.people).padding(.top)
             } else if model.haveSearched {
-                ContentUnavailableView.search
+                VStack {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 48))
+                        .foregroundColor(.gray)
+                    Text("No Results")
+                        .font(.headline)
+                        .padding(.top, 8)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding()
             }
         }
     }
@@ -108,12 +117,14 @@ extension SearchView {
 
 #Preview {
     TabView {
-        Tab("some", systemImage: "magnifyingglass.circle.fill") {
-            SearchView(people: .fakePeople)
-        }
-        Tab("empty", systemImage: "magnifyingglass.circle.fill") {
-            SearchView()
-        }
+        SearchView(people: .fakePeople)
+            .tabItem {
+                Label("some", systemImage: "magnifyingglass.circle.fill")
+            }
+        SearchView()
+            .tabItem {
+                Label("empty", systemImage: "magnifyingglass.circle.fill")
+            }
     }
-    .environment(RecurseService())
+    .environmentObject(RecurseService())
 }

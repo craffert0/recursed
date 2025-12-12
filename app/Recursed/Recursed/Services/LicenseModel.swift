@@ -2,11 +2,10 @@
 // Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
 
 import Foundation
-import Observation
+import Combine
 
-@Observable
-class LicenseModel {
-    var data: String = "GPLv2"
+class LicenseModel: ObservableObject {
+    @Published var data: String = "GPLv2"
 
     init() {
         if let filepath = Bundle.main.path(forResource: "LICENSE",

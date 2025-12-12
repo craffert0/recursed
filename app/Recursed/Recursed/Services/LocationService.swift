@@ -2,12 +2,11 @@
 // Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
 
 import CoreLocation
-import Observation
+import Combine
 
-@Observable
-class LocationService: NSObject {
-    var location: CLLocation?
-    var nearRecurse397: Bool = true
+class LocationService: NSObject, ObservableObject {
+    @Published var location: CLLocation?
+    @Published var nearRecurse397: Bool = true
 
     private let locationManager = CLLocationManager()
 
