@@ -3,39 +3,30 @@
 
 import SwiftUI
 
-struct DoorbotView: View {
+struct StairwellBotView: View {
     @Environment(RecurseService.self) var service
-    @State var control = BotControl(name: "Doorbot")
+    @State var control = BotControl(name: "StairwellBot")
 
     var body: some View {
         BotView(control: control) {
-            Text("1. Approach the building entrance.")
-            Text("2. Using the arrows on the intercom, call the" +
-                " 4th floor. This will ring the intercom" +
-                " inside RC.")
+            Text("1. Climb to the 4th floor.")
             HStack {
-                Text("3. Tap")
-                BotButtonView("Buzz Me In!", control: control) {
-                    try await service.doorbotBuzz()
+                Text("2. Tap")
+                BotButtonView("Open Says Me!", control: control) {
+                    try await service.stairwellBuzz()
                 }
             }
-            Text("4. Walk into the building.")
+            Text("3. Push the door open.")
+            Text("4. Welcome!")
         }
-    }
-
-    private var problem: String? {
-        switch service.doorbotStatus {
-        case .unknown: "Doorbot status unknown"
-        case .good: nil
-        case let .bad(reason): "Doorbot may be down: \(reason)"
-        }
+        Text("StairwellBotView")
     }
 }
 
 #Preview {
     TabView {
         Tab("unknown", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
+            StairwellBotView()
                 .environment({
                     let r = RecurseService()
                     r.doorbotStatus = .unknown
@@ -43,7 +34,7 @@ struct DoorbotView: View {
                 }())
         }
         Tab("good", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
+            StairwellBotView()
                 .environment({
                     let r = RecurseService()
                     r.doorbotStatus = .good
@@ -51,7 +42,7 @@ struct DoorbotView: View {
                 }())
         }
         Tab("bad", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
+            StairwellBotView()
                 .environment({
                     let r = RecurseService()
                     r.doorbotStatus = .bad("some problem")

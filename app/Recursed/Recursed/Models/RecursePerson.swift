@@ -99,7 +99,7 @@ extension RecursePerson {
             image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Groucho_Marx_-_portrait.jpg/500px-Groucho_Marx_-_portrait.jpg",
             pronouns: "he/him",
             unformatted_phone_number: "+17185551212",
-            zoom_url: "https://us04web.zoom.us/invalid",
+            zoom_url: "https://us04web.zoom.us/invalid"
         )
 }
 
@@ -115,7 +115,7 @@ extension [RecursePerson] {
             name_hl: "Karl Marx",
             slug: "-6721",
             stints: [],
-            image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Karl_Marx_001_%28rotated%29.jpg/250px-Karl_Marx_001_%28rotated%29.jpg",
+            image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Karl_Marx_001_%28rotated%29.jpg/250px-Karl_Marx_001_%28rotated%29.jpg"
         ),
         RecursePerson(
             id: -6719,
@@ -125,7 +125,7 @@ extension [RecursePerson] {
             name_hl: "Chico Marx",
             slug: "-6719",
             stints: [],
-            image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Chico_Marx_-_signed.jpg/250px-Chico_Marx_-_signed.jpg",
+            image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Chico_Marx_-_signed.jpg/250px-Chico_Marx_-_signed.jpg"
         ),
         RecursePerson(
             id: -1234,
@@ -135,7 +135,7 @@ extension [RecursePerson] {
             name_hl: "Zeppo Marx",
             slug: "-1234",
             stints: [],
-            image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Zeppo_Marx.jpg/250px-Zeppo_Marx.jpg",
+            image_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Zeppo_Marx.jpg/250px-Zeppo_Marx.jpg"
         ),
         RecursePerson(
             id: -6715,
@@ -144,7 +144,7 @@ extension [RecursePerson] {
             name: "Gummo Marx",
             name_hl: "Gummo Marx",
             slug: "-6715",
-            stints: [],
+            stints: []
         ),
         RecursePerson(
             id: -6716,
@@ -154,7 +154,7 @@ extension [RecursePerson] {
             name_hl: "Harpo Marx",
             slug: "-6716",
             stints: [],
-            image_path: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Harpo_Marx_playing_the_harp_%28cropped%29.jpeg",
+            image_path: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Harpo_Marx_playing_the_harp_%28cropped%29.jpeg"
         ),
     ]
 }

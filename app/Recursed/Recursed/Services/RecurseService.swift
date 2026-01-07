@@ -139,10 +139,6 @@ class RecurseService {
             )
     }
 
-    func doorbotBuzz() async throws -> String {
-        try await doorbotRun(command: "buzz")
-    }
-
     func updateDoorbotStatus() async {
         do {
             let response = try await doorbotRun(command: "status",
@@ -158,8 +154,16 @@ class RecurseService {
         }
     }
 
+    func doorbotBuzz() async throws -> String {
+        try await doorbotRun(command: "sesame/intercom")
+    }
+
+    func stairwellBuzz() async throws -> String {
+        try await doorbotRun(command: "sesame/stairs")
+    }
+
     func elevatorBuzz() async throws -> String {
-        try await doorbotRun(command: "unlock")
+        try await doorbotRun(command: "sesame/elevator")
     }
 
     private func doorbotRun(
@@ -170,7 +174,7 @@ class RecurseService {
             throw RecurseServiceError.loggedOut
         }
         let url =
-            URL(string: "https://doorbot.recurse.com/\(command)_mobile")!
+            URL(string: "https://doorbot.recurse.com/api/\(command)")!
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.setValue("Bearer " + authorizationToken,

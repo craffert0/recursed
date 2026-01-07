@@ -14,33 +14,13 @@ struct ToolsView: View {
         NavigationStack {
             VStack {
                 Spacer()
-
-                NavigationLink {
-                    DoorbotView()
-                } label: {
-                    Text("DoorBot").font(.largeTitle)
-                }
-
+                doorbotView
                 Spacer()
-
-                NavigationLink {
-                    if isElevatorUnlocked {
-                        ManualElevatorView()
-                    } else {
-                        ElevatorBotView()
-                    }
-                } label: {
-                    Text("Elevator").font(.largeTitle)
-                }
-
+                elevatorBotView
                 Spacer()
-
-                Button("Check in") {
-                    checkin()
-                }
-                .font(.largeTitle)
-                .disabled(checking)
-
+                stairwellBotView
+                Spacer()
+                checkinView
                 Spacer()
             }
             .navigationTitle("Hub Tools")
@@ -54,6 +34,52 @@ struct ToolsView: View {
             }
         }
         .task { await service.updateDoorbotStatus() }
+    }
+
+    private var doorbotView: some View {
+        NavigationLink {
+            DoorbotView()
+        } label: {
+            label("DoorBot", "door.left.hand.closed")
+        }
+    }
+
+    private var elevatorBotView: some View {
+        NavigationLink {
+            if isElevatorUnlocked {
+                ManualElevatorView()
+            } else {
+                ElevatorBotView()
+            }
+        } label: {
+            label("Elevator", "arrowshape.up")
+        }
+    }
+
+    private var stairwellBotView: some View {
+        NavigationLink {
+            StairwellBotView()
+        } label: {
+            label("StairwellBot", "figure.stairs")
+        }
+    }
+
+    private var checkinView: some View {
+        Button {
+            checkin()
+        } label: {
+            label("Check in", "checkmark.seal")
+        }
+    }
+
+    private func label(_ text: String, _ systemName: String) -> some View {
+        HStack {
+            Image(systemName: systemName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 60, height: 60)
+            Text(text).font(.largeTitle)
+        }
     }
 
     private func checkin() {
