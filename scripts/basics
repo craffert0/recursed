@@ -1,0 +1,11 @@
+#! /opt/homebrew/bin/python3
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2025 Colin Rafferty <colin@rafferty.net>
+
+import json
+from server import Server
+
+server = Server()
+r = server.get("profiles/me")
+print(json.dumps(r.json(), indent=2))
