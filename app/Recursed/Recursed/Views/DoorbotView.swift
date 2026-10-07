@@ -22,14 +22,6 @@ struct DoorbotView: View {
             Text("4. Walk into the building.")
         }
     }
-
-    private var problem: String? {
-        switch service.doorbotStatus {
-        case .unknown: "Doorbot status unknown"
-        case .good: nil
-        case let .bad(reason): "Doorbot may be down: \(reason)"
-        }
-    }
 }
 
 #Preview {

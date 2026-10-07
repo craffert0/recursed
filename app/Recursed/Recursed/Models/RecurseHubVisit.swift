@@ -5,7 +5,7 @@ import Foundation
 
 struct RecurseHubVisit: Decodable {
     let person: Person
-    let date: String
+    // let date: String
     // "date": "2025-04-14",
     // "app_data": {},
     // "notes": "",

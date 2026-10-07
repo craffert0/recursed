@@ -4,8 +4,8 @@
 import Foundation
 
 enum KeychainError: Error {
-    case noAuthorizationToken
-    case unexpectedAuthorizationTokenData
+    // case noAuthorizationToken
+    // case unexpectedAuthorizationTokenData
     case unhandledError(status: OSStatus)
     case unknown(error: Error)
 

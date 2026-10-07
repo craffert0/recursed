@@ -3,9 +3,9 @@
 
 struct RecurseTokens: Decodable {
     // id of the token, not the person
-    let id: Int
+    // let id: Int
     // authentication token
     let token: String
-    let description: String
+    // let description: String
     //     "last_used_at":null
 }

@@ -5,8 +5,8 @@
 struct RecurseBatch: Decodable {
     let id: Int
     let name: String
-    let start_date: String // "2025-02-17"
-    let end_date: String
+    // let start_date: String // "2025-02-17"
+    // let end_date: String
 }
 
 extension RecurseBatch: Identifiable {}

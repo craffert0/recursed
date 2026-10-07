@@ -16,7 +16,7 @@ struct SearchView: View {
     @State private var showOptions: Bool = false
 
     private static let kAnyBatch =
-        RecurseBatch(id: 0, name: "Any Batch", start_date: "", end_date: "")
+        RecurseBatch(id: 0, name: "Any Batch")
 
     init(people: [RecursePerson] = []) {
         model = SearchModel(people: people)
