@@ -24,31 +24,17 @@ struct DoorbotView: View {
     }
 }
 
-#Preview {
-    TabView {
-        Tab("unknown", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .unknown
-                    return r
-                }())
-        }
-        Tab("good", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .good
-                    return r
-                }())
-        }
-        Tab("bad", systemImage: "magnifyingglass.circle.fill") {
-            DoorbotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .bad("some problem")
-                    return r
-                }())
-        }
-    }
+#Preview("unknown") {
+    DoorbotView()
+        .environment(RecurseService(doorbotStatus: .unknown))
+}
+
+#Preview("good") {
+    DoorbotView()
+        .environment(RecurseService(doorbotStatus: .good))
+}
+
+#Preview("bad") {
+    DoorbotView()
+        .environment(RecurseService(doorbotStatus: .bad("some problem")))
 }

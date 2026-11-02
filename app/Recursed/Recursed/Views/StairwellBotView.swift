@@ -19,35 +19,20 @@ struct StairwellBotView: View {
             Text("3. Push the door open.")
             Text("4. Welcome!")
         }
-        Text("StairwellBotView")
     }
 }
 
-#Preview {
-    TabView {
-        Tab("unknown", systemImage: "magnifyingglass.circle.fill") {
-            StairwellBotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .unknown
-                    return r
-                }())
-        }
-        Tab("good", systemImage: "magnifyingglass.circle.fill") {
-            StairwellBotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .good
-                    return r
-                }())
-        }
-        Tab("bad", systemImage: "magnifyingglass.circle.fill") {
-            StairwellBotView()
-                .environment({
-                    let r = RecurseService()
-                    r.doorbotStatus = .bad("some problem")
-                    return r
-                }())
-        }
-    }
+#Preview("unknown") {
+    StairwellBotView()
+        .environment(RecurseService(doorbotStatus: .unknown))
+}
+
+#Preview("good") {
+    StairwellBotView()
+        .environment(RecurseService(doorbotStatus: .good))
+}
+
+#Preview("bad") {
+    StairwellBotView()
+        .environment(RecurseService(doorbotStatus: .bad("some problem")))
 }

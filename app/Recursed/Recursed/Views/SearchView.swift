@@ -106,14 +106,12 @@ extension SearchView {
     }
 }
 
-#Preview {
-    TabView {
-        Tab("some", systemImage: "magnifyingglass.circle.fill") {
-            SearchView(people: .fakePeople)
-        }
-        Tab("empty", systemImage: "magnifyingglass.circle.fill") {
-            SearchView()
-        }
-    }
-    .environment(RecurseService())
+#Preview("some") {
+    SearchView(people: .fakePeople)
+        .environment(RecurseService())
+}
+
+#Preview("empty") {
+    SearchView()
+        .environment(RecurseService())
 }

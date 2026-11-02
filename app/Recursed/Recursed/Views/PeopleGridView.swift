@@ -26,8 +26,8 @@ struct PeopleGridView: View {
 }
 
 #Preview {
-    let fakePeople = Binding<[RecursePerson]>() { .fakePeople } set: { _ in }
+    @Previewable @State var fakePeople: [RecursePerson] = .fakePeople
     NavigationStack {
-        PeopleGridView(people: fakePeople)
+        PeopleGridView(people: $fakePeople)
     }
 }

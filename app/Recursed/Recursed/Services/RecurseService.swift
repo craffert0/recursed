@@ -220,3 +220,10 @@ class RecurseService {
                                      from: data).token
     }
 }
+
+extension RecurseService {
+    convenience init(doorbotStatus: DoorbotStatus) {
+        self.init()
+        self.doorbotStatus = doorbotStatus
+    }
+}
