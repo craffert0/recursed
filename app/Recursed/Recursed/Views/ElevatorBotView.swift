@@ -20,7 +20,8 @@ struct ElevatorBotView: View {
             )
             Text(
                 "3. While that elevator is traveling, get into" +
-                    " the left elevator.")
+                    " the left elevator."
+            )
             HStack {
                 Text("4. Tap")
                 BotButtonView("Beam Me Up!", control: control) {

@@ -20,7 +20,9 @@ enum RecurseRole: CaseIterable {
 }
 
 extension RecurseRole: Identifiable {
-    var id: Self { self }
+    var id: Self {
+        self
+    }
 }
 
 extension RecurseRole: CustomStringConvertible {

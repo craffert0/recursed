@@ -21,5 +21,7 @@ struct RecurseHubVisit: Decodable {
 }
 
 extension RecurseHubVisit: Identifiable {
-    var id: String { "\(person.id).date" }
+    var id: String {
+        "\(person.id).date"
+    }
 }

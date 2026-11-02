@@ -6,15 +6,8 @@ import SwiftUI
 struct BotView<Content: View>: View {
     @Environment(RecurseService.self) var service
     @State var control: BotControl
-    let content: Content
+    @ViewBuilder let content: Content
     @State var isPoliciesPresented: Bool = false
-
-    init(control: BotControl,
-         @ViewBuilder content: () -> Content)
-    {
-        self.control = control
-        self.content = content()
-    }
 
     var body: some View {
         Form {

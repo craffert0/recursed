@@ -17,7 +17,8 @@ struct TodayVisitsView: View {
                 if location.nearRecurse397,
                    let userId = preferences.userId,
                    !service.currentVisitors.contains(
-                       where: { $0.id == userId })
+                       where: { $0.id == userId }
+                   )
                 {
                     Button("Check in?") {
                         checkin()

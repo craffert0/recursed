@@ -6,7 +6,7 @@ import Foundation
 struct RecursePerson: Decodable {
     var id: Int
     var first_name: String
-    // var last_name: String
+    /// var last_name: String
     var name: String
     // var name_hl: String
     var slug: String
@@ -24,38 +24,38 @@ struct RecursePerson: Decodable {
     // var zulip_intro_rendered: String
 
     var before_rc_hl: String?
-    // var before_rc_match: Bool?
-    // var before_rc_truncated: String?
+    /// var before_rc_match: Bool?
+    /// var before_rc_truncated: String?
     var bio_hl: String?
-    // var bio_match: Bool?
-    // var bio_truncated: String?
-    // var company: RecurseCompany?
-    // var current_location: RecurseLocation?
+    /// var bio_match: Bool?
+    /// var bio_truncated: String?
+    /// var company: RecurseCompany?
+    /// var current_location: RecurseLocation?
     var during_rc_hl: String?
-    // var during_rc_match: Bool?
-    // var during_rc_truncated: String?
+    /// var during_rc_match: Bool?
+    /// var during_rc_truncated: String?
     var email: String?
-    // var email_hl: String?
-    // var email_match: Bool?
-    // var email_truncated: String?
-    // var employer_info_hl: String?
-    // var employer_info_match: Bool?
-    // var employer_info_truncated: String?
-    // var employer_role: String?
-    // var github: String?
-    // var github_hl: String?
-    // var github_match: Bool?
-    // var github_truncated: String?
+    /// var email_hl: String?
+    /// var email_match: Bool?
+    /// var email_truncated: String?
+    /// var employer_info_hl: String?
+    /// var employer_info_match: Bool?
+    /// var employer_info_truncated: String?
+    /// var employer_role: String?
+    /// var github: String?
+    /// var github_hl: String?
+    /// var github_match: Bool?
+    /// var github_truncated: String?
     var image_path: String? // "https://assets.recurse.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTExNzQsInB1ciI6ImJsb2JfaWQifX0=--a2dbc1c267a544e65f7f6d8fc99a8c6592d6936c/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAsMTUwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c257f6a9754e757077206289954839be3466cb57/IMG_8365.jpeg",
-    // var interests_hl: String?
-    // var interests_match: Bool?
-    // var interests_truncated: String?
-    // var joy_of_computing_username: String?
-    // var linkedin: String?
-    // var phone_number: String?
-    // var phone_number_hl: String?
-    // var phone_number_match: Bool?
-    // var phone_number_truncated: String?
+    /// var interests_hl: String?
+    /// var interests_match: Bool?
+    /// var interests_truncated: String?
+    /// var joy_of_computing_username: String?
+    /// var linkedin: String?
+    /// var phone_number: String?
+    /// var phone_number_hl: String?
+    /// var phone_number_match: Bool?
+    /// var phone_number_truncated: String?
     var pronouns: String?
     // var twitter: String?
     var unformatted_phone_number: String?
@@ -81,7 +81,7 @@ extension RecursePerson {
                     batch: RecurseStint.Batch(
                         id: 172,
                         name: "Spring 1, 2025",
-                        short_name: "SP1'25",
+                        short_name: "SP1'25"
                     )
                 ),
             ],
